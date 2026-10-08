@@ -1,0 +1,93 @@
+/* Keep statutory notices visible and at least as large as every price label. */
+:root { --commerce-type: 18px; }
+.alcohol-warning, .alcohol-warning p,
+.footer-warning .alcohol-warning p,
+.checkout-form .alcohol-warning p,
+.info-page .alcohol-warning p {
+  font: 500 var(--commerce-type)/1.85 var(--sans);
+  color: var(--ink);
+  letter-spacing: .015em;
+  opacity: 1;
+}
+.alcohol-warning { margin-block: 22px; }
+.alcohol-warning p + p { margin-top: 5px; }
+.alcohol-warning p { text-wrap: balance; }
+.catalog-warning { padding-block: 30px; border-bottom: 1px solid var(--line); }
+.catalog-warning .alcohol-warning { margin: 0; }
+.price-display p, .price-text, .price-text .pending-text,
+.summary-row, .summary-row.total { font-size: var(--commerce-type); }
+.catalog-warning + .featured { padding-top: 75px; }
+.disclosure-list { margin: 18px 0 28px; }
+.disclosure-list > div { display: grid; grid-template-columns: minmax(150px, 32%) minmax(0, 1fr); gap: 22px; padding: 18px 0; border-top: 1px solid var(--line); }
+.disclosure-list > div:last-child { border-bottom: 1px solid var(--line); }
+.disclosure-list dt, .disclosure-list dd { margin: 0; font-size: 15px; line-height: 1.9; overflow-wrap: anywhere; }
+.disclosure-list dt { font-weight: 500; }
+.disclosure-list dd.price-text { font-size: var(--commerce-type); }
+.field-hint { display: block; font-size: 14px; line-height: 1.8; color: #665d51; margin-top: 5px; }
+.pending-text { font-weight: 500; color: #873b2c; }
+.disclosure-pending { margin: 22px 0 30px; padding: 18px 0; border-block: 1px solid var(--line); font-size: 15px; line-height: 1.9; }
+.disclosure-footnote { font-size: 14px; color: #665d51; margin-top: 24px; }
+.disclosure-nav { display: flex; flex-wrap: wrap; gap: 14px 26px; margin-block: 20px 28px; }
+.disclosure-nav a { font-size: 15px; text-decoration: underline; text-underline-offset: 5px; }
+.product-accordions .disclosure-list > div { grid-template-columns: 1fr; gap: 5px; padding: 14px 0; }
+.product-accordions .disclosure-list { margin-top: 0; }
+.product-accordions .disclosure-list dt, .product-accordions .disclosure-list dd { font-size: 14px; }
+.product-accordions .disclosure-list dd.price-text { font-size: var(--commerce-type); }
+.purchase .disclosure-nav { margin-bottom: 0; }
+.footer-manager { border-top: 1px solid #b69a7266; padding-block: 35px; }
+.footer-manager h2 { font-family: var(--serif); font-size: 23px; font-weight: 400; color: #f5ecdf; }
+.footer-manager > p { margin-top: 10px; font-size: 14px; color: #e1d5c3; }
+.footer-manager .disclosure-list { margin-bottom: 0; }
+.footer-manager .disclosure-list > div { border-color: #b69a7266; padding-block: 12px; }
+.footer-manager .disclosure-list dt { color: #e1d5c3; }
+.footer-manager .pending-text { color: #f5ecdf; }
+.footer-warning .alcohol-warning { margin-top: 0; }
+.footer-warning .alcohol-warning p { color: #fff5e5; }
+.footer-warning > p { font-size: 14px; }
+.checkout-layout { grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); gap: 40px; align-items: start; }
+.checkout-page { max-width: 1120px; }
+.checkout-form .alcohol-warning { margin-block: 14px 24px; }
+.checkout-form input[aria-invalid="true"] { border: 2px solid var(--red); }
+.checkout-form .age-result { font-size: var(--commerce-type); }
+.checkout-conditions { margin-top: 32px; }
+.checkout-conditions .disclosure-list > div { grid-template-columns: 1fr; gap: 4px; }
+.order-summary .summary-row { flex-wrap: wrap; gap: 4px 18px; }
+.order-summary .summary-row > :last-child { margin-left: auto; }
+.document-badge { display: inline-block; padding-bottom: 8px; border-bottom: 2px solid var(--red); font-size: 15px; }
+.sample-document { border: 1px solid var(--line); padding: 30px; margin-top: 25px; background: #faf6ef; }
+.sample-document h2:first-child { margin-top: 0; }
+.sample-document h3 { font-family: var(--serif); font-size: 20px; margin-top: 32px; }
+.checklist-table-wrap { overflow-x: auto; margin-block: 30px; }
+.checklist-table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.85; }
+.checklist-table th, .checklist-table td { border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; padding: 15px 12px; }
+.checklist-table thead th { border-top: 1px solid var(--line); background: #e8dece; }
+.checklist-table th:first-child { white-space: nowrap; }
+.checklist-table th { font-weight: 500; }
+.demo-review-links { margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--line); }
+.demo-review-links a { display: block; padding-block: 8px; font-size: 14px; text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 700px) {
+  :root { --commerce-type: 16px; }
+  .catalog-warning { padding-block: 22px; }
+  .catalog-warning + .featured { padding-top: 50px; }
+  .disclosure-list > div { grid-template-columns: 1fr; gap: 5px; padding-block: 15px; }
+  .footer-manager h2 { font-size: 21px; }
+  .footer-manager .disclosure-list { display: block; }
+  .checkout-layout { grid-template-columns: 1fr; gap: 28px; }
+  .checkout-layout .order-summary { grid-row: 1; margin-top: 0; }
+  .sample-document { padding: 20px 16px; margin-inline: -2px; }
+  .checklist-table { min-width: 570px; }
+  .disclosure-nav { gap: 12px 20px; }
+}
+@media print {
+  :root { --commerce-type: 14pt; }
+  .preview-strip, .header, .footer, .mobile-purchase, .toast, .no-print,
+  .info-page > .back-link { display: none !important; }
+  body, .sample-document { background: #fff !important; color: #000 !important; }
+  .info-page { padding: 0; width: 100%; max-width: none; }
+  .info-page h1 { font-size: 22pt; }
+  .alcohol-warning, .alcohol-warning p, .info-page .alcohol-warning p { color: #000 !important; font-size: 14pt; }
+  .price-text, .price-text .pending-text, .disclosure-list dd.price-text { font-size: 14pt; }
+  .sample-document { padding: 16px; }
+  .sample-document .alcohol-warning { break-inside: avoid; }
+  .pending-text { color: #000; }
+}

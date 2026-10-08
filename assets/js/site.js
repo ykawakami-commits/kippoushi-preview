@@ -2,6 +2,7 @@
   'use strict';
   const $ = (s, scope = document) => scope.querySelector(s);
   const $$ = (s, scope = document) => [...scope.querySelectorAll(s)];
+  const sales = window.KippoushiSales;
   const storageKey = 'kippoushi.design-preview.v4';
   const state = { sale: 'pre', quantity: 0 };
   try {
@@ -52,9 +53,9 @@
     updateQuantityControl($('#product-quantity'));
     save();
     if (routeName === 'cart') renderCart();
-    if (routeName === 'checkout') renderCheckout();
+    if (['checkout', 'checkout-demo'].includes(routeName)) renderCheckout();
   }
-  const summary = (checkout = false) => `<aside class="order-summary"><h2>ご注文内容</h2><div class="summary-row"><span>吉法師 × ${state.quantity}</span><span>価格未確定</span></div><div class="summary-row"><span>送料</span><span>公開準備中</span></div><div class="summary-row total"><span>合計（税込）</span><span>未確定</span></div>${checkout ? '' : isPurchasable() ? '<a class="button button-red full" href="#/checkout">購入手続きへ（試作） <span aria-hidden="true">↗</span></a>' : '<button class="button full" disabled>現在は購入できません</button>'}<p>価格・送料が未確定のため、合計は表示していません。実際のご注文は受け付けておりません。</p></aside>`;
+  const summary = (checkout = false, demo = false) => `<aside class="order-summary"><h2>${demo ? '注文内容の表示見本' : 'ご注文内容'}</h2><div class="summary-row"><span>${demo ? '吉法師（数量は未選択）' : `吉法師 × ${state.quantity}`}</span><span class="price-text">${sales.field('price', false)}</span></div><div class="summary-row"><span>送料</span><span class="price-text">${sales.field('shipping', false)}</span></div><div class="summary-row total"><span>合計（税込）</span><span>未確定</span></div>${checkout ? '' : isPurchasable() ? '<a class="button button-red full" href="#/checkout">購入手続きへ（試作） <span aria-hidden="true">↗</span></a>' : '<button class="button full" disabled>現在は購入できません</button>'}<p>価格・送料が未確定のため、合計は表示していません。実際のご注文は受け付けておりません。</p></aside>`;
   function renderCart() {
     $('[data-cart-summary]').textContent = `${state.quantity} 点の商品`;
     if (!state.quantity) {
@@ -65,15 +66,20 @@
     updateQuantityControl($('#cart-quantity'));
   }
   function renderCheckout() {
-    if (!state.quantity || !isPurchasable()) {
+    const demo = routeName === 'checkout-demo';
+    $('#checkout-page h1').textContent = demo ? '購入申込画面（見本）' : '購入手続き';
+    if (!demo && (!state.quantity || !isPurchasable())) {
       $('#checkout-content').innerHTML = `<div class="empty-cart"><h2>${!state.quantity ? '買い物かごは空です。' : '現在は購入できません。'}</h2><p>購入画面の確認は、試作設定の「在庫あり」で商品をカートに追加してください。</p><button type="button" class="button button-outline" data-open-settings>試作設定を開く <span aria-hidden="true">↗</span></button></div>`;
       return;
     }
-    $('#checkout-content').innerHTML = `<div class="checkout-layout"><form class="checkout-form" id="checkout-form" novalidate><h2>ご購入者さまの年齢</h2><p class="small-note">画面の動作確認用です。入力した年齢は保存・送信しません。</p><label for="buyer-age">年齢（必須）</label><input id="buyer-age" type="number" min="20" max="120" step="1" inputmode="numeric" required aria-describedby="age-guidance age-result" autocomplete="off"> 歳<p id="age-guidance" class="alcohol-note">20歳未満の方への酒類の販売はいたしません。</p><button type="submit" class="button button-red full">入力内容を確認（試作） <span aria-hidden="true">↗</span></button><div id="age-result" class="age-result" role="status" aria-live="polite" hidden></div></form>${summary(true)}</div>`;
+    $('#checkout-content').innerHTML = `<div class="checkout-layout"><div><form class="checkout-form" id="checkout-form" novalidate><h2>ご購入者さまの年齢</h2><p class="small-note">画面の動作確認用です。入力した年齢は保存・送信しません。</p><label for="buyer-age">年齢（必須）</label><input id="buyer-age" type="number" min="20" max="120" step="1" inputmode="numeric" required aria-describedby="age-guidance age-result" autocomplete="off"> 歳<div id="age-guidance">${sales.warning()}</div><button type="submit" class="button button-red full">入力内容を確認（試作） <span aria-hidden="true">↗</span></button><div id="age-result" class="age-result" role="status" aria-live="polite" hidden></div></form><section class="checkout-conditions" aria-labelledby="checkout-terms-heading"><h2 id="checkout-terms-heading">お申込み前の確認事項</h2><p class="disclosure-pending">以下の販売条件は確認待ちです。年齢を入力しても注文は確定しません。</p>${sales.table(sales.groups.purchase, false)}<nav class="disclosure-nav"><a href="#/legal">すべての販売条件・販売者情報</a><a href="#/compliance">チェック表との対応</a></nav></section></div>${summary(true, demo)}</div>`;
   }
   const info = {
-    legal: { title: '販売者情報・特定商取引法に基づく表記', body: '<p>現在、販売開始に向けて準備中です。</p><p>販売業者、運営責任者、所在地、連絡先、販売価格、送料、支払方法、引渡し時期、返品・交換条件は、販売主体から提供された情報をもとに公開します。</p><p>この試作ではご注文を受け付けておりません。</p>' },
-    alcohol: { title: '酒類販売管理者標識', body: '<p>販売場の名称・所在地、酒類販売管理者の氏名、研修受講年月日、次回研修の受講期限、研修実施団体名は、販売主体の確認後に公開します。</p><h2>お酒は20歳になってから。</h2><p>20歳未満の方への酒類の販売はいたしません。</p>' },
+    legal: { title: '販売者情報・特定商取引法に基づく表記', body: sales.legal() },
+    alcohol: { title: '酒類販売管理者標識', body: sales.managerPage() },
+    compliance: { title: '通販表示の確認', body: sales.checklist() },
+    'order-notice': { title: '申込承諾通知の見本', body: sales.notice() },
+    'delivery-note': { title: '納品書の見本', body: sales.delivery() },
     privacy: { title: 'プライバシーポリシー', body: '<p>本番のプライバシーポリシーは、運営主体・利用するECサービス・個人情報の取扱いが確定した後に公開します。</p><h2>この試作について</h2><p>カートの数量と試作設定を、お使いのブラウザー内に保存します。決済や受注システムへの送信はありません。年齢入力は保存しません。文字の表示にGoogle Fontsを利用します。</p>' },
     terms: { title: '利用規約', body: '<p>このサイトは、デザインと操作を確認するための試作です。注文の成立、決済、商品の発送は行われません。</p><p>本番の利用規約は、販売条件とECサービスが決まった後、販売主体の確認を経て公開します。</p>' },
     contact: { title: 'お問い合わせ', body: '<p>商品・ご注文に関するお問い合わせ窓口は、販売開始前にご案内します。</p><p>現在、こちらの試作サイトからお問い合わせを送信することはできません。</p>' },
@@ -100,7 +106,7 @@
     const sameHome = homeRoutes.includes(routeName) && homeRoutes.includes(key);
     const previous = routeName;
     routeName = key;
-    const page = homeRoutes.includes(key) ? 'home' : key === 'purchase' ? 'product' : ['product', 'cart', 'checkout'].includes(key) ? key : 'info';
+    const page = homeRoutes.includes(key) ? 'home' : key === 'purchase' ? 'product' : key === 'checkout-demo' ? 'checkout' : ['product', 'cart', 'checkout'].includes(key) ? key : 'info';
     document.body.classList.toggle('is-home', page === 'home');
     $$('.page').forEach(el => { el.hidden = el.id !== `${page}-page`; });
     $$('dialog[open]').forEach(el => el.close());
@@ -112,7 +118,7 @@
       $('#info-content').innerHTML = `<span class="eyebrow">吉法師</span><h1>${data.title}</h1>${data.body}<a class="back-link" href="#/">← トップへ戻る</a>`;
     }
     const titles = { home:'いだちゃんねるの日本酒', about:'吉法師について', ida:'いだちゃんねる', faq:'よくあるご質問', intro:'吉法師について', sake:'お酒', product:'お酒', purchase:'お酒', cart:'買い物かご', checkout:'購入手続き（試作）' };
-    document.title = `吉法師｜${titles[key] || info[key]?.title || 'ページが見つかりません'}`;
+    document.title = `吉法師｜${key === 'checkout-demo' ? '購入申込画面（見本）' : titles[key] || info[key]?.title || 'ページが見つかりません'}`;
     const anchor = key === 'intro' ? $('#about') : ['about', 'ida', 'faq', 'sake', 'purchase'].includes(key) ? $(`#${key}`) : null;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     requestAnimationFrame(() => {
@@ -145,6 +151,7 @@
     }
     if (event.target.closest('[data-remove-item]')) { state.quantity=0; updateState(); announce('買い物かごから削除しました。'); }
     if (event.target.closest('[data-open-settings]')) openSettings();
+    if (event.target.closest('[data-print-document]')) window.print();
     const galleryButton = event.target.closest('[data-gallery]');
     if (galleryButton) {
       const gallery = {
@@ -180,10 +187,16 @@
     updateState();
     announce(`${count}本を買い物かごに追加しました。`, true);
   });
+  document.addEventListener('input', event => {
+    if (event.target.id !== 'buyer-age') return;
+    event.target.removeAttribute('aria-invalid');
+    $('#age-result').hidden = true;
+    $('#age-result').textContent = '';
+  });
   document.addEventListener('submit', event => {
     if (event.target.id !== 'checkout-form') return;
     event.preventDefault();
-    if (!state.quantity || !isPurchasable()) { renderCheckout();return; }
+    if (routeName !== 'checkout-demo' && (!state.quantity || !isPurchasable())) { renderCheckout();return; }
     const input = $('#buyer-age');
     const age = Number(input.value);
     const result = $('#age-result');
