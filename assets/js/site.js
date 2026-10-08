@@ -67,7 +67,7 @@
   }
   function renderCheckout() {
     const demo = routeName === 'checkout-demo';
-    $('#checkout-page h1').textContent = demo ? '購入申込画面（見本）' : '購入手続き';
+    $('#checkout-page h1').textContent = demo ? '購入申込画面' : '購入手続き';
     if (!demo && (!state.quantity || !isPurchasable())) {
       $('#checkout-content').innerHTML = `<div class="empty-cart"><h2>${!state.quantity ? '買い物かごは空です。' : '現在は購入できません。'}</h2><p>購入画面の確認は、試作設定の「在庫あり」で商品をカートに追加してください。</p><button type="button" class="button button-outline" data-open-settings>試作設定を開く <span aria-hidden="true">↗</span></button></div>`;
       return;
