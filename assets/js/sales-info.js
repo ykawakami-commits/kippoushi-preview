@@ -1,19 +1,53 @@
 (() => {
   'use strict';
 
-  // Set a value only after the seller confirms both its accuracy and publication.
-  // null means unconfirmed. Never infer seller details from application contacts.
+  // Seller's answers received 2026-10-09. Never publish candidate contact details.
+  // Partial answers carry pendingReasons; a non-empty string alone is not approval.
+  const commerce = Object.freeze({ unitPriceYen: 3980 });
   const values = {
-    sellerName: null, sellerAddress: null, sellerPhone: null, sellerEmail: null,
-    representative: null, domesticOffice: null,
-    price: null, volume: null, shipping: null, extraCosts: null,
-    paymentMethod: null, paymentTiming: null, deliveryTiming: null,
-    applicationPeriod: null, cancellation: null, returns: null,
-    nonconformity: null, subscription: null, quantityLimit: null,
-    otherConditions: null, documentFee: null, emailAdvertising: null,
-    acceptanceMethod: null, acceptanceTiming: null,
-    shopName: null, shopAddress: null, salesManager: null,
-    trainingDate: null, trainingDeadline: null, trainingOrganization: null
+    sellerName: '株式会社205',
+    sellerAddress: '〒606-8307 京都市左京区吉田上阿達町42',
+    sellerPhone: null, sellerEmail: null,
+    representative: '代表者：小林 将太朗 ／ 通信販売業務責任者：上田 友哉',
+    domesticOffice: '該当しません（日本法人）。',
+    price: `${commerce.unitPriceYen.toLocaleString('ja-JP')}円（税込）`,
+    volume: null,
+    shipping: 'クール便でお届けします。送料はお客様負担です。送料無料の設定はありません。',
+    extraCosts: '商品代金・送料以外の決済手数料・梱包料はかかりません。',
+    paymentMethod: 'クレジットカード',
+    paymentTiming: 'ご注文時にクレジットカードで前払いとなります。',
+    deliveryTiming: 'ご入金確認後、発送代行倉庫よりクール便で発送します。',
+    applicationPeriod: null,
+    cancellation: 'お客様都合による申込みの撤回・キャンセルはお受けしておりません。',
+    returns: 'お客様都合による返品・交換はお受けしておりません。不良・破損・誤配送の場合は交換または返金で対応し、返送料は当社が負担します。',
+    nonconformity: '契約内容と異なる商品は、交換または返金で対応します。返送料は当社が負担します。',
+    subscription: '定期購入・継続契約はありません（都度購入のみ）。',
+    quantityLimit: '購入本数の上限は設けていません。',
+    otherConditions: '日本国内のみ配送します。',
+    documentFee: '無料です。書面・電磁的記録の交付に別途費用はかかりません。',
+    emailAdvertising: '電子メールによる広告は行いません。',
+    acceptanceMethod: 'ご注文完了時に、自動の注文確認・受付メールをお送りする予定です。',
+    acceptanceTiming: '決済直後に送信する予定です。',
+    shopName: 'いだちゃんねる',
+    shopAddress: '〒622-0012 京都府南丹市園部町内林町東畑10',
+    salesManager: '上田 友哉（選任予定・研修受講済み）',
+    trainingDate: '2026年9月17日',
+    // Answer: follows the training date. Checklist: day before the third anniversary.
+    trainingDeadline: '2029年9月16日',
+    trainingOrganization: '酒類政策研究所 酒類販売管理研修事務センター'
+  };
+  const pendingReasons = {
+    sellerPhone: '公開する電話番号を確認中です。',
+    sellerEmail: '公開するメールアドレスを確認中です。',
+    shipping: '地域別の送料と税込金額を確認中です。',
+    paymentMethod: 'その他の決済手段は確認中です。',
+    deliveryTiming: '発送までの日数・お届けの目安は確認中です。',
+    applicationPeriod: '受付終了の年月日を確認中です。',
+    returns: 'ご連絡の受付期限・連絡先は確認中です。',
+    nonconformity: 'ご連絡の受付期限・連絡先は確認中です。',
+    acceptanceMethod: '申込承諾通知としての扱い・本番ECでの通知内容を確認中です。',
+    acceptanceTiming: '本番ECの確定と通知設定が必要です。現在は送信されません。',
+    salesManager: '選任完了の確認待ちです。'
   };
   const labels = {
     sellerName: ['販売業者の氏名・名称', '個人は氏名、法人は正式な法人名'],
@@ -54,11 +88,12 @@
     manager: ['shopName', 'shopAddress', 'salesManager', 'trainingDate', 'trainingDeadline', 'trainingOrganization']
   };
   const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-  const confirmed = key => typeof values[key] === 'string' && values[key].trim().length > 0;
-  const field = (key, hint = true) => confirmed(key) ? escape(values[key]) : `<span class="pending-text">販売者確認待ち</span>${hint ? `<small class="field-hint">${escape(labels[key][1])}</small>` : ''}`;
+  const hasValue = key => typeof values[key] === 'string' && values[key].trim().length > 0;
+  const confirmed = key => hasValue(key) && !pendingReasons[key];
+  const field = (key, hint = true) => `${hasValue(key) ? escape(values[key]) : '<span class="pending-text">販売者確認待ち</span>'}${pendingReasons[key] ? `<small class="field-hint pending-text">${escape(pendingReasons[key])}</small>` : !hasValue(key) && hint ? `<small class="field-hint">${escape(labels[key][1])}</small>` : ''}`;
   const table = (keys, hints = true) => `<dl class="disclosure-list">${keys.map(key => `<div data-disclosure="${key}"><dt>${escape(labels[key][0])}</dt><dd${['price','shipping','extraCosts'].includes(key) ? ' class="price-text"' : ''}>${field(key, hints)}</dd></div>`).join('')}</dl>`;
   const warning = () => '<div class="alcohol-warning"><p>20歳未満の者の飲酒は法律で禁止されています。</p><p>20歳未満の方には酒類を販売いたしません。</p></div>';
-  const pendingNotice = '<p class="disclosure-pending">表示内容の確認用です。「販売者確認待ち」の項目は未確定のため、正式な販売条件としては使えません。現在、ご注文・お支払いは受け付けておりません。</p>';
+  const pendingNotice = '<p class="disclosure-pending">販売者からの回答を反映した確認用ページです。「確認中」「確認待ち」「予定」と記載した部分は未確定です。決済・在庫・受注システムは未接続のため、現在、ご注文・お支払いは受け付けておりません。</p>';
   const manager = hints => table(groups.manager, hints);
   const legal = () => `${pendingNotice}${warning()}<nav class="disclosure-nav" aria-label="販売表示の案内"><a href="#/alcohol">酒類販売管理者標識</a><a href="#/compliance">チェック表との対応</a></nav><h2>販売業者について</h2>${table(groups.business)}<h2>価格・お支払い・お届け・返品等</h2>${table(groups.terms)}<p class="disclosure-footnote">条件付きの項目も、販売者が「該当なし」と確認するまで未確定として扱います。</p>`;
   const managerPage = () => `${pendingNotice}${manager(true)}${warning()}<a class="line-link" href="#/legal">特定商取引法に基づく表記を見る <span aria-hidden="true">↗</span></a>`;
@@ -78,7 +113,9 @@
     ['(1)イ(ﾙ)','定期購入・継続契約',['subscription'],'legal'],
     ['(1)イ(ｦ)','数量制限等の販売条件',['quantityLimit','otherConditions'],'legal'],
     ['(1)イ(ﾜ)','書面・電磁的記録の交付費用',['documentFee'],'legal'],
-    ['(1)イ(ｶ)','電子メール広告・メールアドレス',['emailAdvertising','sellerEmail'],'legal'],
+    // No advertising emails: the conditional advertising-address item does not apply.
+    // The separately required inquiry contact remains visibly pending in business info.
+    ['(1)イ(ｶ)','電子メール広告・メールアドレス',['emailAdvertising'],'legal'],
     ['(1)ロ','前払い時の申込承諾通知',['acceptanceMethod','acceptanceTiming'],'order-notice'],
     ['(2)イ','サイト上の飲酒禁止・販売禁止表示',null,'product','表示を追加'],
     ['(2)ロ','年齢記載欄と近接する禁止文言',null,'checkout-demo','入力欄・表示・20歳未満の停止を実装'],
@@ -92,12 +129,12 @@
   ];
   const checklist = () => {
     const pending = checks.filter(([, , keys]) => keys && !keys.every(confirmed)).length;
-    return `<p>通販チェック表の《(2)についての確認事項》に対応する表示をまとめています。</p><p class="disclosure-pending"><strong>${pending}項目は販売者情報・販売条件の確認待ちです。</strong><br>未確定の項目があるため、現時点では「すべての項目を満たした提出版」ではありません。</p><div class="checklist-table-wrap"><table class="checklist-table"><thead><tr><th scope="col">項目</th><th scope="col">確認内容</th><th scope="col">状況・掲載場所</th></tr></thead><tbody>${checks.map(([code,title,keys,route,status]) => `<tr><th scope="row">${code}</th><td>${title}</td><td>${keys ? (keys.every(confirmed) ? '提供情報を反映' : '<span class="pending-text">販売者確認待ち</span>') : status}<br><a href="#/${route}">画面を確認 ↗</a></td></tr>`).join('')}</tbody></table></div><h2>確認用の画面</h2><nav class="disclosure-nav"><a href="#/legal">特定商取引法に基づく表記</a><a href="#/alcohol">酒類販売管理者標識</a><a href="#/checkout-demo">購入申込画面（見本）</a><a href="#/order-notice">申込承諾通知（案）</a><a href="#/delivery-note">納品書（案）</a></nav><p>通知・納品書は文面と表示の見本です。本番販売では、受注・決済・帳票システムでの実装と販売者による最終確認が必要です。</p>`;
+    return `<p>通販チェック表の《(2)についての確認事項》に対応する表示をまとめています。2026年10月9日に受領した回答を反映しました。</p><p class="disclosure-pending"><strong>全24項目の表示欄があります。${pending}項目には、確認待ちの情報が残っています。</strong><br>記載済みの部分と未確定の部分を分けて表示しています。本番システムへの接続は別途必要です。</p><div class="checklist-table-wrap"><table class="checklist-table"><thead><tr><th scope="col">項目</th><th scope="col">確認内容</th><th scope="col">状況・掲載場所</th></tr></thead><tbody>${checks.map(([code,title,keys,route,status]) => `<tr><th scope="row">${code}</th><td>${title}</td><td>${keys ? (keys.every(confirmed) ? '回答を反映済み' : `<span class="pending-text">${keys.some(hasValue) ? '一部反映・確認待ちあり' : '欄あり・内容確認待ち'}</span><small class="field-hint">${keys.filter(key => !confirmed(key)).map(key => escape(labels[key][0])).join('、')}</small>`) : status}<br><a href="#/${route}">画面を確認 ↗</a></td></tr>`).join('')}</tbody></table></div><h2>確認用の画面</h2><nav class="disclosure-nav"><a href="#/legal">特定商取引法に基づく表記</a><a href="#/alcohol">酒類販売管理者標識</a><a href="#/checkout-demo">購入申込画面（見本）</a><a href="#/order-notice">申込承諾通知（案）</a><a href="#/delivery-note">納品書（案）</a></nav><p>通知・納品書は文面と表示の見本です。本番販売では、受注・決済・帳票システムでの実装と販売者による最終確認が必要です。問い合わせ用メールアドレス、容量・原材料などの商品仕様も確認待ちです。</p>`;
   };
   function mount() {
     document.querySelectorAll('[data-sales-table]').forEach(el => { el.innerHTML = table(groups[el.dataset.salesTable], el.dataset.salesHints !== 'false'); });
     document.querySelectorAll('[data-sales-field]').forEach(el => { el.innerHTML = field(el.dataset.salesField, false); });
   }
-  window.KippoushiSales = Object.freeze({values, labels, groups, checks, field, table, warning, legal, managerPage, notice, delivery, checklist, mount});
+  window.KippoushiSales = Object.freeze({values, pendingReasons, commerce, confirmed, labels, groups, checks, field, table, warning, legal, managerPage, notice, delivery, checklist, mount});
   mount();
 })();

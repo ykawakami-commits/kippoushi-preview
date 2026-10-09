@@ -15,6 +15,7 @@
 .catalog-warning { padding-block: 30px; border-bottom: 1px solid var(--line); }
 .catalog-warning .alcohol-warning { margin: 0; }
 .price-display p, .price-text, .price-text .pending-text,
+.cart-item .price-text, .release-line .price-text,
 .summary-row, .summary-row.total { font-size: var(--commerce-type); }
 .catalog-warning + .featured { padding-top: 75px; }
 .disclosure-list { margin: 18px 0 28px; }
@@ -40,6 +41,7 @@
 .footer-manager .disclosure-list { margin-bottom: 0; }
 .footer-manager .disclosure-list > div { border-color: #b69a7266; padding-block: 12px; }
 .footer-manager .disclosure-list dt { color: #e1d5c3; }
+.footer-manager .disclosure-list dd, .footer-manager .field-hint { color: #f5ecdf; }
 .footer-manager .pending-text { color: #f5ecdf; }
 .footer-warning .alcohol-warning { margin-top: 0; }
 .footer-warning .alcohol-warning p { color: #fff5e5; }
