@@ -73,7 +73,16 @@
       $('#checkout-content').innerHTML = `<div class="empty-cart"><h2>${!state.quantity ? '買い物かごは空です。' : '現在は購入できません。'}</h2><p>購入画面の確認は、試作設定の「在庫あり」で商品をカートに追加してください。</p><button type="button" class="button button-outline" data-open-settings>試作設定を開く <span aria-hidden="true">↗</span></button></div>`;
       return;
     }
-    $('#checkout-content').innerHTML = `<div class="checkout-layout"><div><form class="checkout-form" id="checkout-form" novalidate><h2>ご購入者さまの年齢</h2><p class="small-note">画面の動作確認用です。入力した年齢は保存・送信しません。</p><label for="buyer-age">年齢（必須）</label><input id="buyer-age" type="number" min="20" max="120" step="1" inputmode="numeric" required aria-describedby="age-guidance age-result" autocomplete="off"> 歳<div id="age-guidance">${sales.warning()}</div><button type="submit" class="button button-red full">入力内容を確認（試作） <span aria-hidden="true">↗</span></button><div id="age-result" class="age-result" role="status" aria-live="polite" hidden></div></form><section class="checkout-conditions" aria-labelledby="checkout-terms-heading"><h2 id="checkout-terms-heading">お申込み前の確認事項</h2><p class="disclosure-pending">一部の販売条件は確認中です。年齢を入力しても注文は確定しません。</p>${sales.table(sales.groups.purchase, false)}<nav class="disclosure-nav"><a href="#/legal">すべての販売条件・販売者情報</a><a href="#/compliance">チェック表との対応</a></nav></section></div>${summary(true, demo)}</div>`;
+    $('#checkout-content').innerHTML = `<div class="checkout-layout"><div><form class="checkout-form" id="checkout-form" novalidate><h2>ご購入者さまの年齢確認</h2><p class="small-note">画面の動作確認用です。入力した年齢・チェック内容は保存・送信しません。</p><label for="buyer-age">年齢（必須）</label><input id="buyer-age" type="number" min="20" max="120" step="1" inputmode="numeric" required aria-describedby="age-guidance age-result" autocomplete="off"> 歳<div id="age-guidance">${sales.warning()}</div>
+      <div class="age-confirmation" role="group" aria-labelledby="age-confirmation-question">
+        <p id="age-confirmation-question" class="age-confirmation-question">20歳以上ですか？ <span class="required-label">必須</span></p>
+        <label class="age-confirmation-label" for="buyer-age-confirmed">
+          <input id="buyer-age-confirmed" name="age-confirmed" type="checkbox" value="yes" required autocomplete="off" aria-describedby="age-guidance age-check-help age-result">
+          <span>私は20歳以上です。</span>
+        </label>
+        <p id="age-check-help" class="age-check-help">年齢を入力し、チェックを入れてから確認へお進みください。</p>
+      </div>
+      <button type="submit" class="button button-red full" disabled aria-describedby="age-check-help">入力内容を確認（試作） <span aria-hidden="true">↗</span></button><div id="age-result" class="age-result" role="status" aria-live="polite" hidden></div></form><button type="button" class="checkout-print no-print" data-print-document>この画面を印刷する</button><section class="checkout-conditions" aria-labelledby="checkout-terms-heading"><h2 id="checkout-terms-heading">お申込み前の確認事項</h2><p class="disclosure-pending">一部の販売条件は確認中です。年齢を入力しても注文は確定しません。</p>${sales.table(sales.groups.purchase, false)}<nav class="disclosure-nav"><a href="#/legal">すべての販売条件・販売者情報</a><a href="#/compliance">チェック表との対応</a></nav></section></div>${summary(true, demo)}</div>`;
   }
   function syncCartQuantity(quantity) {
     state.quantity = quantity;
@@ -197,10 +206,18 @@
       if (quantity >= 1 && validQuantity(quantity)) syncCartQuantity(quantity);
       return;
     }
-    if (event.target.id !== 'buyer-age') return;
+    if (!['buyer-age', 'buyer-age-confirmed'].includes(event.target.id)) return;
+    const input = $('#buyer-age');
+    const confirmation = $('#buyer-age-confirmed');
+    const age = Number(input.value);
+    const validAge = input.value.trim() !== '' && Number.isInteger(age) && age >= 20 && age <= 120;
+    $('#checkout-form button[type="submit"]').disabled = !validAge || !confirmation.checked;
     event.target.removeAttribute('aria-invalid');
-    $('#age-result').hidden = true;
-    $('#age-result').textContent = '';
+    const underage = input.value.trim() !== '' && Number.isInteger(age) && age >= 0 && age < 20;
+    const result = $('#age-result');
+    result.hidden = !underage;
+    result.textContent = underage ? '20歳未満の方への酒類の販売はいたしません。購入手続きを進めることはできません。' : '';
+    if (underage) input.setAttribute('aria-invalid', 'true');
   });
   document.addEventListener('submit', event => {
     if (event.target.id !== 'checkout-form') return;
@@ -208,16 +225,21 @@
     if (routeName !== 'checkout-demo' && (!state.quantity || !isPurchasable())) { renderCheckout();return; }
     const input = $('#buyer-age');
     const age = Number(input.value);
+    const confirmation = $('#buyer-age-confirmed');
     const result = $('#age-result');
     result.hidden = false;
     const invalid = input.value.trim() === '' || !Number.isInteger(age) || age < 20 || age > 120;
     input.setAttribute('aria-invalid', String(invalid));
+    confirmation.setAttribute('aria-invalid', String(!confirmation.checked));
     if (input.value.trim()==='' || !Number.isInteger(age) || age < 0 || age > 120) {
       result.textContent = '年齢を正しい整数で入力してください。';
       input.focus();
     } else if (age < 20) {
       result.textContent = '20歳未満の方への酒類の販売はいたしません。購入手続きを進めることはできません。';
       input.focus();
+    } else if (!confirmation.checked) {
+      result.textContent = '「私は20歳以上です。」にチェックを入れてください。';
+      confirmation.focus();
     } else {
       result.textContent = '入力内容を確認しました。この試作はここまでです。決済・受注システムは未接続のため、注文は確定されません。';
     }
