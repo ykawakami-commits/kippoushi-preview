@@ -73,16 +73,30 @@
       $('#checkout-content').innerHTML = `<div class="empty-cart"><h2>${!state.quantity ? '買い物かごは空です。' : '現在は購入できません。'}</h2><p>購入画面の確認は、試作設定の「在庫あり」で商品をカートに追加してください。</p><button type="button" class="button button-outline" data-open-settings>試作設定を開く <span aria-hidden="true">↗</span></button></div>`;
       return;
     }
-    $('#checkout-content').innerHTML = `<div class="checkout-layout"><div><form class="checkout-form" id="checkout-form" novalidate><h2>ご購入者さまの年齢確認</h2><p class="small-note">画面の動作確認用です。入力した年齢・チェック内容は保存・送信しません。</p><label for="buyer-age">年齢（必須）</label><input id="buyer-age" type="number" min="20" max="120" step="1" inputmode="numeric" required aria-describedby="age-guidance age-result" autocomplete="off"> 歳<div id="age-guidance">${sales.warning()}</div>
-      <div class="age-confirmation" role="group" aria-labelledby="age-confirmation-question">
-        <p id="age-confirmation-question" class="age-confirmation-question">20歳以上ですか？ <span class="required-label">必須</span></p>
+    $('#checkout-content').innerHTML = `<div class="checkout-layout"><div>
+      <form class="checkout-form" id="checkout-form" novalidate aria-labelledby="age-confirmation-heading">
+        <div class="age-confirmation-heading">
+          <h2 id="age-confirmation-heading">年齢確認</h2>
+          <span class="required-label">必須</span>
+        </div>
+        <div class="age-field">
+          <label for="buyer-age">ご年齢</label>
+          <div class="age-entry">
+            <input id="buyer-age" name="age" type="number" min="20" max="120" step="1" inputmode="numeric" required aria-describedby="age-guidance age-check-help age-result" autocomplete="off">
+            <span>歳</span>
+          </div>
+        </div>
         <label class="age-confirmation-label" for="buyer-age-confirmed">
           <input id="buyer-age-confirmed" name="age-confirmed" type="checkbox" value="yes" required autocomplete="off" aria-describedby="age-guidance age-check-help age-result">
           <span>私は20歳以上です。</span>
         </label>
+        <div id="age-guidance">${sales.warning()}</div>
         <p id="age-check-help" class="age-check-help">年齢を入力し、チェックを入れてから確認へお進みください。</p>
-      </div>
-      <button type="submit" class="button button-red full" disabled aria-describedby="age-check-help">入力内容を確認（試作） <span aria-hidden="true">↗</span></button><div id="age-result" class="age-result" role="status" aria-live="polite" hidden></div></form><button type="button" class="checkout-print no-print" data-print-document>この画面を印刷する</button><section class="checkout-conditions" aria-labelledby="checkout-terms-heading"><h2 id="checkout-terms-heading">お申込み前の確認事項</h2><p class="disclosure-pending">一部の販売条件は確認中です。年齢を入力しても注文は確定しません。</p>${sales.table(sales.groups.purchase, false)}<nav class="disclosure-nav"><a href="#/legal">すべての販売条件・販売者情報</a><a href="#/compliance">チェック表との対応</a></nav></section></div>${summary(true, demo)}</div>`;
+        <button type="submit" class="button button-red full" disabled aria-describedby="age-check-help">入力内容を確認（試作） <span aria-hidden="true">↗</span></button>
+        <div id="age-result" class="age-result" role="status" aria-live="polite" hidden></div>
+        <p class="small-note">画面の動作確認用です。入力した年齢・チェック内容は保存・送信しません。</p>
+      </form>
+      <button type="button" class="checkout-print no-print" data-print-document>この画面を印刷する</button><section class="checkout-conditions" aria-labelledby="checkout-terms-heading"><h2 id="checkout-terms-heading">お申込み前の確認事項</h2><p class="disclosure-pending">一部の販売条件は確認中です。年齢を入力しても注文は確定しません。</p>${sales.table(sales.groups.purchase, false)}<nav class="disclosure-nav"><a href="#/legal">すべての販売条件・販売者情報</a><a href="#/compliance">チェック表との対応</a></nav></section></div>${summary(true, demo)}</div>`;
   }
   function syncCartQuantity(quantity) {
     state.quantity = quantity;
