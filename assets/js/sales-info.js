@@ -3,7 +3,9 @@
 
   // Seller's answers received 2026-10-09. Never publish candidate contact details.
   // Partial answers carry pendingReasons; a non-empty string alone is not approval.
-  const commerce = Object.freeze({ unitPriceYen: 3980 });
+  // 商品名・価格・スペックは data/product.js から読む（値はここに書かない）。
+  const product = window.Kippoushi.product;
+  const commerce = Object.freeze({ unitPriceYen: product.priceYen });
   const values = {
     sellerName: '株式会社205',
     sellerAddress: '〒606-8307 京都市左京区吉田上阿達町42',
@@ -11,17 +13,7 @@
     representative: '代表者：小林 将太朗 ／ 通信販売業務責任者：上田 友哉',
     domesticOffice: '該当しません（日本法人）。',
     price: `${commerce.unitPriceYen.toLocaleString('ja-JP')}円（税込）`,
-    // 裏ラベル（2026年11月10日に依頼者から一旦確定として受領。変更の可能性あり）
-    productName: '純米吟醸 吉法師',
-    category: '日本酒',
-    ingredients: '米（京都府産）、米こうじ（京都府産米）',
-    polishRatio: '60%',
-    riceVariety: '祝 100%',
-    alcohol: '11度',
-    volume: '720ml',
-    storage: '要冷蔵',
-    maker: '玉乃光酒造株式会社　京都市伏見区東堺町545-2',
-    labelNotes: '開栓後は早めにお召し上がりください。',
+    ...product.specs,
     shipping: 'クール便でお届けします。送料はお客様負担です。送料無料の設定はありません。',
     extraCosts: '商品代金・送料以外の決済手数料・梱包料はかかりません。',
     paymentMethod: 'クレジットカード',
@@ -111,7 +103,7 @@
   const confirmed = key => hasValue(key) && !pendingReasons[key];
   const field = (key, hint = true) => `${hasValue(key) ? escape(values[key]) : '<span class="pending-text">販売者確認待ち</span>'}${pendingReasons[key] ? `<small class="field-hint pending-text">${escape(pendingReasons[key])}</small>` : !hasValue(key) && hint ? `<small class="field-hint">${escape(labels[key][1])}</small>` : ''}`;
   const table = (keys, hints = true) => `<dl class="disclosure-list">${keys.map(key => `<div data-disclosure="${key}"><dt>${escape(labels[key][0])}</dt><dd${['price','shipping','extraCosts'].includes(key) ? ' class="price-text"' : ''}>${field(key, hints)}</dd></div>`).join('')}</dl>`;
-  const warning = () => '<div class="alcohol-warning"><p>20歳未満の者の飲酒は法律で禁止されています。</p><p>20歳未満の方には酒類を販売いたしません。</p></div>';
+  const warning = () => '<div class="alcohol-warning"><p data-phrase>20歳未満の者の飲酒は法律で禁止されています。</p><p data-phrase>20歳未満の方には酒類を販売いたしません。</p></div>';
   const pendingNotice = '<p class="disclosure-pending">販売者からの回答を反映した確認用ページです。「確認中」「確認待ち」「予定」と記載した部分は未確定です。決済・在庫・受注システムは未接続のため、現在、ご注文・お支払いは受け付けておりません。</p>';
   const manager = hints => table(groups.manager, hints);
   const legal = () => `${pendingNotice}${warning()}<nav class="disclosure-nav" aria-label="販売表示の案内"><a href="#/alcohol">酒類販売管理者標識</a><a href="#/compliance">チェック表との対応</a></nav><h2>販売業者について</h2>${table(groups.business)}<h2>価格・お支払い・お届け・返品等</h2>${table(groups.terms)}<p class="disclosure-footnote">条件付きの項目も、販売者が「該当なし」と確認するまで未確定として扱います。</p>`;

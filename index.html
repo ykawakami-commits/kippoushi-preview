@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#29251f">
+  <meta name="theme-color" content="#f2eadb">
   <meta name="description" content="いだちゃんねるの日本酒、吉法師（きっぽうし）。ブランドサイトのデザインプレビューです。">
   <meta name="robots" content="noindex,nofollow">
   <title>吉法師｜いだちゃんねるの日本酒</title>
@@ -11,73 +11,139 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Zen+Old+Mincho:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="assets/images/hero-tokkuri-1456.webp?v=3" media="(min-width: 701px)">
-  <link rel="preload" as="image" href="assets/images/hero-tokkuri-mobile-725.webp?v=3" imagesrcset="assets/images/hero-tokkuri-mobile-600.webp?v=3 600w, assets/images/hero-tokkuri-mobile-725.webp?v=3 700w" imagesizes="100vw" media="(max-width: 700px)">
   <link rel="stylesheet" href="assets/css/site.css?v=7">
   <link rel="stylesheet" href="assets/css/editorial.css?v=10">
   <link rel="stylesheet" href="assets/css/castle-atmosphere.css?v=9">
   <link rel="stylesheet" href="assets/css/presentation.css?v=10.1">
   <link rel="stylesheet" href="assets/css/disclosures.css?v=14">
-  <script src="assets/js/sales-info.js?v=13" defer></script>
-  <script src="assets/js/site.js?v=14" defer></script>
-  <script src="assets/js/motion.js?v=10.1" defer></script>
+  <link rel="stylesheet" href="assets/css/redesign.css?v=1">
+  <script src="assets/js/data/images.js?v=1"></script>
+  <script src="assets/js/vendor/gsap.min.js?v=3.13.0" defer></script>
+  <script src="assets/js/vendor/ScrollTrigger.min.js?v=3.13.0" defer></script>
+  <script src="assets/js/data/config.js?v=1" defer></script>
+  <script src="assets/js/data/product.js?v=1" defer></script>
+  <script src="assets/js/sales-info.js?v=14" defer></script>
+  <script src="assets/js/cart.js?v=1" defer></script>
+  <script src="assets/js/site.js?v=15" defer></script>
+  <script src="assets/js/scenes.js?v=1" defer></script>
 </head>
-<body data-chrome="light">
+<body>
   <a class="skip-link" href="#main">本文へ移動</a>
-  <div class="preview-strip"><span>デザインプレビュー <i></i> 商品写真・ラベルは制作イメージです</span><a href="#/notes">制作ノート <span aria-hidden="true">↗</span></a></div>
-  <header class="header">
-    <a class="wordmark" href="#/" aria-label="吉法師 トップページ"><span>吉法師</span><small>きっぽうし</small></a>
-    <nav class="desktop-nav" aria-label="メインナビゲーション"><a href="#/product">お酒</a><a href="#/about">吉法師について</a><a href="#/ida">いだちゃんねる</a></nav>
-    <div class="header-actions"><a class="cart-link" href="#/cart" aria-label="買い物かご"><svg width="20" height="24" viewBox="0 0 24 28" fill="none" aria-hidden="true"><path d="M3 8.5h18l1 17H2l1-17Z" stroke="currentColor" stroke-width="1.3"/><path d="M8 10V6a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="1.3"/></svg><span class="cart-link-label">買い物かご</span><span class="cart-count" data-cart-count>0</span></a><button class="menu-toggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button></div>
+  <header class="bar">
+    <a class="bar-title" href="#/" aria-label="吉法師 トップページ">吉法師</a>
+    <a class="bar-cart" href="#/cart"><span class="bar-cart-label">買い物かご</span><span class="bar-count" data-cart-count>0</span><span class="visually-hidden">点</span></a>
   </header>
-  <dialog id="mobile-menu" class="menu-dialog" aria-labelledby="menu-title"><div class="menu-top"><span id="menu-title" class="serif">吉法師</span><button class="close-button" data-close-menu aria-label="メニューを閉じる">閉じる <span>×</span></button></div><nav aria-label="サイトナビゲーション"><a href="#/product">お酒 <span>01</span></a><a href="#/about">吉法師について <span>02</span></a><a href="#/ida">いだちゃんねる <span>03</span></a><a href="#/faq">よくあるご質問 <span>04</span></a><a href="#/cart">買い物かご <span data-cart-count>0</span></a></nav><p>いだちゃんねるの日本酒<br>吉法師 — きっぽうし</p></dialog>
   <main id="main" tabindex="-1">
     <div id="home-page" class="page">
-      <section data-surface="dark" class="hero" aria-labelledby="hero-title">
-        <div class="hero-title"><p class="hero-origin">いだちゃんねるの日本酒</p><h1 id="hero-title" aria-label="吉法師"><span aria-hidden="true">吉</span><span aria-hidden="true">法</span><span aria-hidden="true">師</span></h1><span class="hero-reading">きっぽうし</span></div>
-        <figure class="hero-image"><picture><source media="(max-width: 700px)" srcset="assets/images/hero-tokkuri-mobile-600.webp?v=3 600w, assets/images/hero-tokkuri-mobile-725.webp?v=3 700w" sizes="100vw"><img src="assets/images/hero-tokkuri-1456.webp?v=3" srcset="assets/images/hero-tokkuri-800.webp?v=3 800w, assets/images/hero-tokkuri-1456.webp?v=3 1456w" sizes="100vw" width="1456" height="971" alt="緑の庭を望む縁側に、吉法師の瓶とロゴ入りの白い徳利・おちょこ。生成した撮影イメージ。" fetchpriority="high"></picture><figcaption>生成イメージ<span>瓶・ラベルは仮デザイン</span></figcaption></figure>
-        <div class="hero-bottom"><a class="button hero-shop" href="#/product">商品を見る <span class="arrow" aria-hidden="true">↗</span></a></div>
-        <div class="hero-foot"><span>いだちゃんねるの日本酒</span><a href="#/sake"><i class="scroll-stroke" aria-hidden="true"></i>お酒のご紹介 <span aria-hidden="true">↓</span></a></div>
-      </section>
-      <div class="catalog-warning section-wrap"><div class="alcohol-warning"><p>20歳未満の者の飲酒は法律で禁止されています。</p><p>20歳未満の方には酒類を販売いたしません。</p></div></div>
-      <section data-surface="light" class="featured section-wrap" id="sake" aria-labelledby="featured-title"><figure class="featured-image"><a href="#/product" aria-label="吉法師の商品詳細を見る"><img src="assets/images/bottle-front-1000.webp" width="1000" height="1250" loading="lazy" alt="吉法師の瓶の正面。水色の瓶に金色のキャップ、山水を描いたラベル。"></a><figcaption>制作イメージ</figcaption></figure><div class="featured-copy"><div class="eyebrow">お酒のご紹介</div><p class="product-kana">きっぽうし</p><h2 id="featured-title" class="product-title serif">吉法師</h2><p class="featured-description">京都で活動する二人組、<br>いだちゃんねるの日本酒です。</p><div class="release-line"><span class="status-dot"></span><span>販売準備中</span><span class="price-text" data-sales-field="price">3,980円（税込）</span></div><a href="#/product" class="line-link">商品詳細を見る <span aria-hidden="true">↗</span></a></div></section>
-      <section data-surface="dark" class="atmosphere" aria-label="縁側と盃のイメージ"><div class="atmosphere-stage"><img src="assets/images/cups-1600.webp" srcset="assets/images/cups-800.webp 800w, assets/images/cups-1600.webp 1600w" sizes="100vw" width="1536" height="1024" loading="lazy" alt="午後の光が差す木の縁側に、ふたつの盃。生成した情景イメージ。"><span class="image-disclosure">生成イメージ</span></div></section>
-      <section data-surface="light" class="story section-wrap" id="about" aria-labelledby="story-title"><div class="section-index"><span>一</span><p>吉法師について</p></div><div class="story-body"><h2 id="story-title" class="serif">吉法師と、<br>いだちゃんねる。</h2><div class="story-paragraph"><p>京都を拠点に活動するYouTuber、いだちゃんねる。<br class="desktop-only">コバとサイコの二人が販売する日本酒です。</p><p>読み方は「きっぽうし」。<br>商品情報は、発売前に公開します。</p></div></div><div class="story-type" aria-hidden="true"><span>吉</span><span>法</span><span>師</span></div></section>
-      <section data-surface="dark" class="ida-section ida-chapter" id="ida" aria-labelledby="ida-title">
-        <div class="section-wrap">
-          <div class="ida-chapter-intro">
-            <div class="ida-heading">
-              <div class="section-index"><span>二</span><p>いだちゃんねるについて</p></div>
-              <span class="eyebrow">京都府南丹市</span>
-              <h2 id="ida-title" class="serif">古民家を、<br>「いだ城」に。</h2>
+      <div class="stage" id="stage">
+        <section class="scene scene-1" aria-labelledby="scene-title">
+          <figure class="scene-fill scene-photo" data-image="hero" data-eager></figure>
+          <div class="scene-frame">
+            <div class="title-block">
+              <h1 id="scene-title" class="title" data-move>吉法師</h1>
+              <p class="title-kana" data-move>きっぽうし</p>
             </div>
-            <div class="ida-chapter-copy">
-              <p>二人が南丹市で購入した古民家。<br>ここを「いだ城」にしていく様子を、<br>YouTubeで公開しています。</p>
-              <a class="line-link light-link" href="https://www.youtube.com/@ida_channel" target="_blank" rel="noopener noreferrer"><span>城づくりをYouTubeで見る</span><span aria-hidden="true">↗</span></a>
-            </div>
+            <p class="photo-note" data-fade>制作イメージ</p>
+            <a class="title-link" href="#/product" data-fade>商品を見る</a>
+            <p class="folio" data-fade aria-hidden="true">一／七</p>
           </div>
-          <div class="ida-chapter-foot"><span>いだちゃんねる</span><span>コバ・サイコ</span></div>
+        </section>
+        <section class="scene scene-2">
+          <div class="scene-frame">
+            <div class="prose">
+              <h2 class="col col-lead" data-move data-phrase>「人生に立ち会う日本酒」</h2>
+              <p class="col col-drop" data-move data-phrase>これが、吉法師に込めたテーマです。</p>
+            </div>
+            <p class="folio" data-fade aria-hidden="true">二／七</p>
+          </div>
+        </section>
+        <section class="scene scene-3">
+          <div class="scene-frame">
+            <figure class="strip" data-image="cups" data-eager data-caption data-sizes="(max-width: 700px) 40vw, 240px" data-hold></figure>
+            <p class="prose"><span class="col" data-move data-phrase>恋人との初デート、久しぶりの友人との再会、</span><span class="col" data-move data-phrase>上司への仕事の相談。</span><span class="col" data-move data-phrase>人生のさまざまな場面に、お酒は登場します。</span></p>
+            <p class="folio" data-fade aria-hidden="true">三／七</p>
+          </div>
+        </section>
+        <section class="scene scene-4">
+          <div class="scene-frame">
+            <p class="prose"><span class="col" data-move data-phrase>そして時には、お酒を介した出会いや会話が、</span><span class="col" data-move data-phrase>人生を好転させるきっかけになることもあります。</span></p>
+            <p class="folio" data-fade aria-hidden="true">四／七</p>
+          </div>
+        </section>
+        <section class="scene scene-5">
+          <div class="scene-fill scene-ink"></div>
+          <div class="scene-frame">
+            <p class="prose"><span class="col" data-move data-phrase>化学反応における触媒のように、人と人が</span><span class="col" data-move data-phrase>より濃く、強く、そして軽やかに反応し合える。</span><span class="col" data-move data-phrase>吉法師は、そんな日本酒を目指して造りました。</span></p>
+            <p class="folio" data-fade aria-hidden="true">五／七</p>
+          </div>
+        </section>
+        <section class="scene scene-6">
+          <div class="scene-frame">
+            <div class="prose"><p class="col" data-move data-phrase>大好きな人と過ごす時間に。</p><p class="col" data-move data-phrase>頑張った自分への労いに。</p><p class="col" data-move data-phrase>普段は照れくさくて言えない、父親への感謝を伝える時に。</p></div>
+            <p class="folio" data-fade aria-hidden="true">六／七</p>
+          </div>
+        </section>
+        <section class="scene scene-7">
+          <div class="scene-frame">
+            <p class="prose"><span class="col" data-move data-phrase>あなたのかけがえのない人生のワンシーンに、</span><span class="col" data-move data-phrase>吉法師が立ち会えたら嬉しいです。</span></p>
+            <p class="folio" data-fade aria-hidden="true">七／七</p>
+          </div>
+        </section>
+      </div>
+      <section class="shelf" id="sake" aria-labelledby="shelf-title">
+        <div class="shelf-inner">
+          <div class="shelf-photos">
+            <figure class="shelf-main" data-image="bottleFront" data-eager data-caption data-sizes="(max-width: 700px) 70vw, 380px"></figure>
+            <ul class="shelf-cuts">
+              <li><figure data-image="bottleBack" data-thumb></figure></li>
+              <li><figure data-image="bottleLabel" data-thumb></figure></li>
+              <li><figure data-image="bottleCap" data-thumb></figure></li>
+              <li><figure data-image="bottleBase" data-thumb></figure></li>
+            </ul>
+          </div>
+          <div class="shelf-info">
+            <p class="shelf-kana" data-product="kana"></p>
+            <h2 id="shelf-title" class="shelf-name" data-product="name"></h2>
+            <p class="shelf-state" data-sale-label></p>
+            <p class="shelf-price"><span class="price-text" data-sales-field="price"></span></p>
+            <div class="alcohol-warning"><p data-phrase>20歳未満の者の飲酒は法律で禁止されています。</p><p data-phrase>20歳未満の方には酒類を販売いたしません。</p></div>
+            <dl class="shelf-specs">
+              <div><dt>内容量</dt><dd data-sales-field="volume"></dd></div>
+              <div><dt>アルコール分</dt><dd data-sales-field="alcohol"></dd></div>
+              <div><dt>精米歩合</dt><dd data-sales-field="polishRatio"></dd></div>
+              <div><dt>保存方法</dt><dd data-sales-field="storage"></dd></div>
+            </dl>
+            <a class="text-link" href="#/product">商品の詳細を見る</a>
+          </div>
         </div>
       </section>
-      <section data-surface="light" class="faq-section section-wrap" id="faq" aria-labelledby="faq-title"><div class="faq-heading"><span class="eyebrow">ご利用案内</span><h2 id="faq-title" class="serif">よくある<br>ご質問</h2></div><div class="faq-list"><details><summary>発売日・購入方法について<span aria-hidden="true">＋</span></summary><p>現在、販売開始に向けて準備中です。価格は1本 <span class="price-text" data-sales-field="price">3,980円（税込）</span>です。内容量は720ml。発売日と正式な購入方法は、確定後にご案内します。</p></details><details><summary>送料・お届けについて<span aria-hidden="true">＋</span></summary><p><span data-sales-field="shipping"></span></p><p><span data-sales-field="deliveryTiming"></span></p><p>現在はご注文を受け付けておりません。</p></details><details><summary>保管方法について<span aria-hidden="true">＋</span></summary><p>商品の保管方法は、確定した商品情報と実物ラベルの表示に沿ってご案内します。</p></details><details><summary>ギフト・包装について<span aria-hidden="true">＋</span></summary><p>ギフト対応の有無、包装・のし、料金は現在確認中です。</p></details><details><summary>返品・交換について<span aria-hidden="true">＋</span></summary><p><span data-sales-field="returns"></span></p></details></div></section>
-      <section data-surface="light" class="closing section-wrap" aria-labelledby="closing-title">
-        <div class="closing-signature">
-          <p class="closing-kicker">いだちゃんねるの日本酒</p>
-          <div class="closing-lockup"><h2 id="closing-title" class="serif">吉法師</h2><span class="closing-seal" aria-hidden="true">吉</span></div>
-          <p class="closing-note">きっぽうし</p>
+      <section class="guide" id="faq" aria-labelledby="guide-title">
+        <div class="guide-inner">
+          <h2 id="guide-title" class="guide-title">ご利用案内</h2>
+          <dl class="guide-list">
+            <div><dt>発売日・購入方法について</dt><dd><p data-phrase>現在、販売開始に向けて準備中です。価格は1本 <span class="price-text" data-sales-field="price"></span>です。内容量は<span data-sales-field="volume"></span>。発売日と正式な購入方法は、確定後にご案内します。</p></dd></div>
+            <div><dt>送料・お届けについて</dt><dd><p><span data-sales-field="shipping"></span></p><p><span data-sales-field="deliveryTiming"></span></p><p>現在はご注文を受け付けておりません。</p></dd></div>
+            <div><dt>保管方法について</dt><dd><p data-phrase>商品の保管方法は、確定した商品情報と実物ラベルの表示に沿ってご案内します。</p></dd></div>
+            <div><dt>ギフト・包装について</dt><dd><p data-phrase>ギフト対応の有無、包装・のし、料金は現在確認中です。</p></dd></div>
+            <div><dt>返品・交換について</dt><dd><p><span data-sales-field="returns"></span></p></dd></div>
+          </dl>
+          <nav class="guide-links" aria-label="販売条件と表記">
+            <a href="#/legal">販売者情報・特定商取引法に基づく表記</a>
+            <a href="#/alcohol">酒類販売管理者標識</a>
+            <a href="#/contact">お問い合わせ</a>
+          </nav>
+          <p class="guide-note" data-phrase>このサイトは販売開始前の試作です。商品写真・ラベルは制作イメージです。現在はご注文を受け付けておりません。</p>
         </div>
-        <a class="button button-red" href="#/product">商品を見る <span aria-hidden="true">↗</span></a>
       </section>
     </div>
-    <div id="product-page" class="page" hidden><div class="breadcrumbs section-wrap"><a href="#/">トップ</a><span>／</span><span>吉法師</span></div><section class="product-layout section-wrap" aria-labelledby="pdp-title"><div class="product-gallery"><figure><img id="gallery-main" src="assets/images/bottle-front-1000.webp" width="1000" height="1250" alt="吉法師の瓶の正面。水色の瓶に金色のキャップ、山水を描いたラベル。"><figcaption id="gallery-caption">制作イメージ</figcaption></figure><div class="gallery-thumbs" aria-label="商品画像を選ぶ"><button aria-label="瓶の正面" aria-pressed="true" data-gallery="bottle"><img src="assets/images/bottle-front-400.webp" width="80" height="100" alt=""></button><button aria-label="瓶の裏面" aria-pressed="false" data-gallery="back"><img src="assets/images/bottle-back-400.webp" width="80" height="100" alt=""></button><button aria-label="ラベルの拡大" aria-pressed="false" data-gallery="label"><img src="assets/images/bottle-label.webp" width="100" height="91" alt=""></button><button aria-label="キャップの拡大" aria-pressed="false" data-gallery="cap"><img src="assets/images/bottle-cap.webp" width="100" height="85" alt=""></button><button aria-label="瓶底の刻印" aria-pressed="false" data-gallery="base"><img src="assets/images/bottle-base.webp" width="100" height="49" alt=""></button><button aria-label="盃の情景イメージ" aria-pressed="false" data-gallery="cups"><img src="assets/images/cups-800.webp" width="100" height="70" alt=""></button></div></div><div class="product-information"><span class="eyebrow">純米吟醸 ／ いだちゃんねるの日本酒</span><p class="product-kana">きっぽうし</p><h1 id="pdp-title" class="product-title serif">吉法師</h1><p class="pdp-description">京都の米「祝」と、伏見の酒造り。<br>エンタメではなく“本気”で創った日本酒。<br>これを読んでるあなたが、日本酒を楽しむ入口を目指しました。</p><div class="purchase" id="purchase"><div class="purchase-heading"><span data-sale-label>販売準備中</span><span>日本国内向け</span></div><div class="price-display"><p>販売価格（税込）<br><span data-sales-field="price">販売者確認待ち</span><small>容量：<span data-sales-field="volume">販売者確認待ち</span></small></p></div><div class="quantity-row"><label for="product-quantity">数量</label><div class="quantity-control"><button type="button" data-quantity="-1" data-target="product-quantity" aria-label="数量を減らす">−</button><input id="product-quantity" type="number" min="1" value="1" step="1" inputmode="numeric"><button type="button" data-quantity="1" data-target="product-quantity" aria-label="数量を増やす">＋</button></div></div><button type="button" id="add-to-cart" class="button button-red full" disabled>販売開始前です</button><p class="purchase-note" data-sale-note>発売日が決まり次第、お知らせします。</p><div class="alcohol-warning"><p>20歳未満の者の飲酒は法律で禁止されています。</p><p>20歳未満の方には酒類を販売いたしません。</p></div><nav class="disclosure-nav" aria-label="販売条件"><a href="#/legal">送料・お支払い・返品等</a><a href="#/alcohol">酒類販売管理者標識</a></nav></div><div class="product-accordions"><details open><summary>お酒について<span aria-hidden="true">＋</span></summary><dl class="spec-list"><div><dt>商品名</dt><dd><span data-sales-field="productName"></span>（きっぽうし）</dd></div><div><dt>品目</dt><dd><span data-sales-field="category"></span></dd></div><div><dt>原材料名</dt><dd><span data-sales-field="ingredients"></span></dd></div><div><dt>精米歩合</dt><dd><span data-sales-field="polishRatio"></span></dd></div><div><dt>原料米品種</dt><dd><span data-sales-field="riceVariety"></span></dd></div><div><dt>アルコール分</dt><dd><span data-sales-field="alcohol"></span></dd></div><div><dt>内容量</dt><dd><span data-sales-field="volume"></span></dd></div><div><dt>保存方法</dt><dd><span data-sales-field="storage"></span></dd></div><div><dt>製造者</dt><dd><span data-sales-field="maker"></span></dd></div><div><dt>製造年月</dt><dd>ラベルに記載</dd></div><div><dt>飲用上の注意</dt><dd><span data-sales-field="labelNotes"></span></dd></div></dl></details><details><summary>お支払い・お届け・返品について<span aria-hidden="true">＋</span></summary><div data-sales-table="purchase" data-sales-hints="false"></div><p>未確定の項目があります。販売条件の確認が済むまで、ご注文は受け付けておりません。</p><a class="line-link" href="#/legal">すべての販売条件を見る <span aria-hidden="true">↗</span></a></details></div></div></section><section class="pdp-scene section-wrap"><img src="assets/images/hero-tokkuri-1456.webp?v=3" width="1456" height="971" loading="lazy" alt="縁側の瓶と徳利・おちょこ。実在のいだ城とは異なる生成イメージ。"><div><span class="eyebrow">いだちゃんねるの日本酒</span><p class="serif">吉法師について</p><small>生成した撮影イメージです。<br>実際の商品・いだ城の写真ではありません。</small><a class="line-link" href="#/about">吉法師について <span aria-hidden="true">↗</span></a></div></section></div>
-    <div id="cart-page" class="page" hidden><div class="commerce-page section-wrap"><div class="commerce-heading"><span class="eyebrow">SHOPPING BAG</span><h1 class="serif">買い物かご</h1><span data-cart-summary>0 点の商品</span></div><p class="commerce-notice">こちらは動作確認用のカートです。ご注文・お支払いは発生しません。</p><div class="alcohol-warning"><p>20歳未満の者の飲酒は法律で禁止されています。</p><p>20歳未満の方には酒類を販売いたしません。</p></div><div id="cart-content"></div><a class="back-link" href="#/product">← お酒を見る</a></div></div>
+    <div id="product-page" class="page" hidden><div class="breadcrumbs section-wrap"><a href="#/">トップ</a><span>／</span><span data-product="name"></span></div><section class="product-layout section-wrap" aria-labelledby="pdp-title"><div class="product-gallery"><figure><img id="gallery-main" width="1000" height="1250" alt=""><figcaption id="gallery-caption"></figcaption></figure><div class="gallery-thumbs" aria-label="商品画像を選ぶ"></div></div><div class="product-information"><span class="eyebrow">純米吟醸 ／ いだちゃんねるの日本酒</span><p class="product-kana" data-product="kana"></p><h1 id="pdp-title" class="product-title serif" data-product="name"></h1><p class="pdp-description">京都の米「祝」と、伏見の酒造り。<br>エンタメではなく“本気”で創った日本酒。<br>これを読んでるあなたが、日本酒を楽しむ入口を目指しました。</p><div class="purchase" id="purchase"><div class="purchase-heading"><span data-sale-label></span><span>日本国内向け</span></div><div class="price-display"><p>販売価格（税込）<br><span data-sales-field="price"></span><small>容量：<span data-sales-field="volume"></span></small></p></div><div class="quantity-row"><label for="product-quantity">数量</label><div class="quantity-control"><button type="button" data-quantity="-1" data-target="product-quantity" aria-label="数量を減らす">−</button><input id="product-quantity" type="number" min="1" value="1" step="1" inputmode="numeric"><button type="button" data-quantity="1" data-target="product-quantity" aria-label="数量を増やす">＋</button></div></div><button type="button" id="add-to-cart" class="button button-red full" disabled>販売開始前です</button><p class="purchase-note" data-sale-note>発売日が決まり次第、お知らせします。</p><div class="alcohol-warning"><p data-phrase>20歳未満の者の飲酒は法律で禁止されています。</p><p data-phrase>20歳未満の方には酒類を販売いたしません。</p></div><nav class="disclosure-nav" aria-label="販売条件"><a href="#/legal">送料・お支払い・返品等</a><a href="#/alcohol">酒類販売管理者標識</a></nav></div><div class="product-accordions"><details open><summary>お酒について<span aria-hidden="true">＋</span></summary><dl class="spec-list"><div><dt>商品名</dt><dd><span data-sales-field="productName"></span>（きっぽうし）</dd></div><div><dt>品目</dt><dd><span data-sales-field="category"></span></dd></div><div><dt>原材料名</dt><dd><span data-sales-field="ingredients"></span></dd></div><div><dt>精米歩合</dt><dd><span data-sales-field="polishRatio"></span></dd></div><div><dt>原料米品種</dt><dd><span data-sales-field="riceVariety"></span></dd></div><div><dt>アルコール分</dt><dd><span data-sales-field="alcohol"></span></dd></div><div><dt>内容量</dt><dd><span data-sales-field="volume"></span></dd></div><div><dt>保存方法</dt><dd><span data-sales-field="storage"></span></dd></div><div><dt>製造者</dt><dd><span data-sales-field="maker"></span></dd></div><div><dt>製造年月</dt><dd>ラベルに記載</dd></div><div><dt>飲用上の注意</dt><dd><span data-sales-field="labelNotes"></span></dd></div></dl></details><details><summary>お支払い・お届け・返品について<span aria-hidden="true">＋</span></summary><div data-sales-table="purchase" data-sales-hints="false"></div><p>未確定の項目があります。販売条件の確認が済むまで、ご注文は受け付けておりません。</p><a class="line-link" href="#/legal">すべての販売条件を見る <span aria-hidden="true">↗</span></a></details></div></div></section><section class="pdp-scene section-wrap"><figure class="pdp-scene-photo" data-image="hero" data-wide data-sizes="(max-width: 700px) 100vw, 60vw"></figure><div><span class="eyebrow">いだちゃんねるの日本酒</span><p class="serif">吉法師について</p><small>生成した撮影イメージです。<br>実際の商品・いだ城の写真ではありません。</small><a class="line-link" href="#/">吉法師について <span aria-hidden="true">↗</span></a></div></section></div>
+    <div id="cart-page" class="page" hidden><div class="commerce-page section-wrap"><div class="commerce-heading"><span class="eyebrow">SHOPPING BAG</span><h1 class="serif">買い物かご</h1><span data-cart-summary>0 点の商品</span></div><p class="commerce-notice">こちらは動作確認用のカートです。ご注文・お支払いは発生しません。</p><div class="alcohol-warning"><p data-phrase>20歳未満の者の飲酒は法律で禁止されています。</p><p data-phrase>20歳未満の方には酒類を販売いたしません。</p></div><div id="cart-content"></div><a class="back-link" href="#/product">← お酒を見る</a></div></div>
     <div id="checkout-page" class="page" hidden><div class="commerce-page checkout-page section-wrap"><div class="commerce-heading"><span class="eyebrow">CHECKOUT PREVIEW</span><h1 class="serif">購入手続き</h1></div><p class="commerce-notice">購入画面の試作です。決済・在庫・受注システムは未接続です。</p><div id="checkout-content"></div><a href="#/cart" class="back-link">← 買い物かごに戻る</a></div></div>
     <div id="info-page" class="page" hidden><article class="info-page section-wrap" id="info-content"></article></div>
-    <noscript><p class="section-wrap">カートの操作にはJavaScriptが必要です。このサイトは販売開始前の試作です。</p></noscript>
+    <noscript><p class="section-wrap">商品情報・写真の表示とカートの操作にはJavaScriptが必要です。このサイトは販売開始前の試作です。</p></noscript>
   </main>
-  <footer class="footer"><div class="footer-main section-wrap"><a class="footer-brand" href="#/"><span class="serif">吉法師</span><small>きっぽうし</small><p>いだちゃんねるの日本酒</p></a><div class="footer-links"><div><a href="#/product">お酒</a><a href="#/about">吉法師について</a><a href="#/ida">いだちゃんねる</a><a href="https://www.youtube.com/@ida_channel" target="_blank" rel="noopener noreferrer">公式 YouTube <span>↗</span></a></div><div><a href="#/faq">よくあるご質問</a><a href="#/contact">お問い合わせ</a><a href="#/legal">販売者情報・特定商取引法に基づく表記</a><a href="#/alcohol">酒類販売管理者標識</a></div></div></div><section class="footer-manager section-wrap" aria-labelledby="manager-heading"><h2 id="manager-heading">酒類販売管理者標識</h2><p>販売者からの回答を反映しています。管理者の選任完了は確認中です。現在、ご注文は受け付けておりません。</p><div data-sales-table="manager" data-sales-hints="false"></div></section><div class="footer-warning section-wrap"><div class="alcohol-warning"><p>20歳未満の者の飲酒は法律で禁止されています。</p><p>20歳未満の方には酒類を販売いたしません。</p></div><p>飲酒運転は法律で禁止されています。妊娠中・授乳期の飲酒はお控えください。</p></div><div class="footer-bottom section-wrap"><span>© 吉法師</span><div><a href="#/privacy">プライバシーポリシー</a><a href="#/terms">利用規約</a><a href="#/compliance">通販表示の確認</a><button type="button" id="open-preview">試作設定</button></div></div></footer>
-  <div class="mobile-purchase" hidden><span>吉法師 <small>きっぽうし</small></span><a href="#/product">商品を見る <span aria-hidden="true">↗</span></a></div>
-  <dialog id="preview-dialog" class="preview-dialog" aria-labelledby="preview-title"><div class="dialog-heading"><h2 id="preview-title" class="serif">試作の確認</h2><button class="close-button" data-close-preview aria-label="試作設定を閉じる">閉じる <span>×</span></button></div><p>表示と操作の確認専用です。実際の販売状況とは連動しません。</p><label for="sale-state">販売状態</label><select id="sale-state"><option value="pre">販売前（初期表示）</option><option value="in">在庫あり（操作テスト）</option><option value="out">売り切れ（表示テスト）</option></select><p class="small-note">価格は1本3,980円（税込）の回答を反映しています。容量・送料の金額は確認中です。実際の注文・決済はできません。</p><button class="button button-red full" data-close-preview>この設定で見る <span aria-hidden="true">↗</span></button><nav class="demo-review-links" aria-label="通販チェック表の確認用画面"><a href="#/compliance">チェック表との対応・確認待ち項目 ↗</a><a href="#/checkout-demo">購入申込画面の見本 ↗</a><a href="#/order-notice">申込承諾通知の見本 ↗</a><a href="#/delivery-note">納品書の見本 ↗</a><a href="#/notes">制作ノート・必要素材 ↗</a></nav></dialog>
+  <footer class="footer"><div class="footer-main section-wrap"><a class="footer-brand" href="#/"><span class="serif">吉法師</span><small>きっぽうし</small><p>いだちゃんねるの日本酒</p></a><div class="footer-links"><div><a href="#/product">お酒</a><a href="https://www.youtube.com/@ida_channel" target="_blank" rel="noopener noreferrer">公式 YouTube <span>↗</span></a></div><div><a href="#/faq">ご利用案内</a><a href="#/contact">お問い合わせ</a><a href="#/legal">販売者情報・特定商取引法に基づく表記</a><a href="#/alcohol">酒類販売管理者標識</a></div></div></div><section class="footer-manager section-wrap" aria-labelledby="manager-heading"><h2 id="manager-heading">酒類販売管理者標識</h2><p>販売者からの回答を反映しています。管理者の選任完了は確認中です。現在、ご注文は受け付けておりません。</p><div data-sales-table="manager" data-sales-hints="false"></div></section><div class="footer-warning section-wrap"><div class="alcohol-warning"><p data-phrase>20歳未満の者の飲酒は法律で禁止されています。</p><p data-phrase>20歳未満の方には酒類を販売いたしません。</p></div><p>飲酒運転は法律で禁止されています。妊娠中・授乳期の飲酒はお控えください。</p></div><div class="footer-bottom section-wrap"><span>© 吉法師</span><div><a href="#/privacy">プライバシーポリシー</a><a href="#/terms">利用規約</a><a href="#/compliance">通販表示の確認</a><button type="button" id="open-preview">試作設定</button></div></div></footer>
+  <dialog id="preview-dialog" class="preview-dialog" aria-labelledby="preview-title"><div class="dialog-heading"><h2 id="preview-title" class="serif">試作の確認</h2><button class="close-button" data-close-preview aria-label="試作設定を閉じる">閉じる <span>×</span></button></div><p>表示と操作の確認専用です。実際の販売状況とは連動しません。</p><label for="sale-state">販売状態</label><select id="sale-state"><option value="pre">販売前（初期表示）</option><option value="in">在庫あり（操作テスト）</option><option value="out">売り切れ（表示テスト）</option></select><p class="small-note">価格は1本<span data-sales-field="price"></span>の回答を反映しています。容量・送料の金額は確認中です。実際の注文・決済はできません。</p><button class="button button-red full" data-close-preview>この設定で見る <span aria-hidden="true">↗</span></button><nav class="demo-review-links" aria-label="通販チェック表の確認用画面"><a href="#/compliance">チェック表との対応・確認待ち項目 ↗</a><a href="#/checkout-demo">購入申込画面の見本 ↗</a><a href="#/order-notice">申込承諾通知の見本 ↗</a><a href="#/delivery-note">納品書の見本 ↗</a><a href="#/notes">制作ノート・必要素材 ↗</a></nav></dialog>
   <div class="toast" role="status" aria-live="polite" hidden></div>
 </body>
 </html>

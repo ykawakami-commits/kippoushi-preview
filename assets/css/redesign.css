@@ -1,0 +1,207 @@
+/* トップページ作り直し（redesign/scroll）。ほかのCSSより後に読み込む。
+   優先順位：上部バーを常に同じ見た目で出す ＞ 1画面ずつ切り替える ＞ 見た目の質 */
+
+:root {
+  --paper: #f2eadb;
+  --ink: #2c302b;
+  --muted: #6f675a;
+  --line: #ccbea6;
+  --red: #953f2f;
+  /* 上部バーの高さ（PC 64px／スマホ 56px）。上端のセーフエリアを足した値が --header-h */
+  --header-base: 64px;
+  --header-h: calc(var(--header-base) + env(safe-area-inset-top, 0px));
+  /* 場面1〜7の領域＝バーの下（100svh − --header-h）。背景だけは画面の下端まで延ばす */
+  --frame-h: calc(100vh - var(--header-h));
+  --stage-h: calc(100vh - var(--header-h));
+  --pad-y: clamp(28px, 7vh, 72px);
+  --avail: calc(var(--frame-h) - 2 * var(--pad-y));
+  /* 縦書きの文字サイズ。1行23字（字送り1.14）が領域の高さに必ず収まるように決める */
+  --fs-max: 27px;
+  --fs: clamp(15px, calc(var(--avail) / 26.6), var(--fs-max));
+  --fs-lead: min(calc(var(--fs) * 1.75), calc(var(--avail) / 14.2));
+  --fs-6: clamp(15px, calc(var(--avail) / 31.2), var(--fs));
+  --fs-7: min(calc(var(--fs) * 1.12), calc(var(--avail) / 24.4));
+}
+@supports (height: 100svh) {
+  :root {
+    --frame-h: calc(100svh - var(--header-h));
+    --stage-h: calc(100lvh - var(--header-h));
+    --pad-y: clamp(28px, 7svh, 72px);
+  }
+}
+@media (max-width: 700px) {
+  :root { --header-base: 56px; --fs-max: 22px; }
+}
+
+html { scroll-behavior: auto; scroll-padding-top: var(--header-h); }
+body, body.is-home { padding-top: var(--header-h); background: var(--paper); }
+
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ---------- 上部バー（全ページ共通・常に同じ見た目） ---------- */
+.bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: var(--header-h);
+  padding: env(safe-area-inset-top, 0px) var(--gutter) 0;
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--paper); color: var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+.bar-title {
+  display: inline-flex; align-items: center; min-height: 44px;
+  font: 500 24px/1 var(--serif); letter-spacing: .22em; color: var(--ink);
+}
+.bar-cart {
+  display: inline-flex; align-items: center; gap: 12px; min-width: 44px; min-height: 44px;
+  font: 400 13px/1 var(--sans); letter-spacing: .12em; color: var(--ink);
+}
+.bar-count {
+  display: inline-grid; place-items: center; min-width: 40px; height: 28px; padding: 0 6px;
+  border: 1px solid var(--ink);
+  font: 500 14px/1 var(--sans); font-variant-numeric: tabular-nums; letter-spacing: 0;
+}
+.bar a:focus-visible, .stage a:focus-visible, .shelf a:focus-visible, .guide a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+@media (max-width: 700px) {
+  .bar-title { font-size: 21px; }
+  .bar-cart { gap: 10px; font-size: 12px; }
+}
+@media print { .bar { display: none !important; } }
+
+/* バーより上に出るものを作らない（モーダルは別） */
+.skip-link { z-index: 900; }
+.skip-link:focus { top: calc(var(--header-h) + 10px); }
+@media (min-width: 701px) { .product-gallery { top: calc(var(--header-h) + 24px); } }
+@media (max-width: 700px) { .toast { bottom: 24px; } }
+
+/* ---------- 場面1〜7 ---------- */
+/* 既定：全場面が縦に並ぶ普通のページ（JSなし・動きを減らす設定） */
+.stage { position: relative; background: var(--paper); }
+.scene { position: relative; height: var(--frame-h); min-height: 440px; overflow: hidden; color: var(--ink); }
+.scene-frame { position: absolute; inset: 0; }
+.scene-fill { position: absolute; inset: 0; margin: 0; }
+.scene-1, .scene-5 { color: var(--paper); }
+.scene-ink { background: var(--ink); }
+
+/* 切り替えが動くとき：場面を同じ場所に重ね、バーの下に固定する */
+.scenes-on .stage { height: var(--stage-h); overflow: hidden; }
+.scenes-on .scene { position: absolute; inset: 0; height: auto; min-height: 0; pointer-events: none; }
+.scenes-on .scene-frame { inset: 0 0 auto; height: var(--frame-h); }
+.scenes-on .scene a { pointer-events: auto; }
+
+/* 場面1：題字と全画面写真 */
+.scene-photo { background: #50544b; }
+.scene-photo picture, .scene-photo img { display: block; width: 100%; height: 100%; max-width: none; }
+.scene-photo img { object-fit: cover; }
+.scene-photo::after { content: ''; position: absolute; inset: 0; background: rgba(44, 48, 43, .3); }
+.title-block { position: absolute; left: 13%; top: 11%; display: flex; align-items: flex-start; gap: 14px; }
+.title { writing-mode: vertical-rl; font: 400 clamp(60px, calc(var(--frame-h) * .134), 112px)/1.12 var(--serif); letter-spacing: .1em; }
+.title-kana { writing-mode: vertical-rl; padding-top: 8px; font: 500 16px/1 var(--serif); letter-spacing: .3em; }
+.photo-note { position: absolute; top: 18px; right: var(--gutter); padding: 7px 10px; background: var(--ink); color: var(--paper); font: 400 12px/1 var(--sans); letter-spacing: .12em; }
+.title-link {
+  position: absolute; left: 13%; bottom: var(--pad-y);
+  display: inline-flex; align-items: center; min-height: 52px; padding: 0 30px;
+  background: var(--paper); color: var(--ink);
+  font: 400 14px/1 var(--sans); letter-spacing: .2em;
+}
+.title-link:hover { text-decoration: underline; text-underline-offset: 6px; }
+.folio { position: absolute; right: var(--gutter); bottom: 24px; color: var(--muted); font: 400 12px/1 var(--serif); letter-spacing: .32em; }
+.scene-1 .folio, .scene-5 .folio { color: var(--paper); }
+
+/* 縦書きの本文 */
+.prose {
+  position: absolute; top: 50%; right: 50%; transform: translate(50%, -50%);
+  height: min(var(--avail), 26.6em); margin: 0;
+  writing-mode: vertical-rl;
+  font: 400 var(--fs)/2.4 var(--serif); letter-spacing: .14em;
+}
+.col { display: block; margin: 0; font: inherit; letter-spacing: inherit; word-break: auto-phrase; line-break: strict; text-wrap: balance; }
+.scene-2 .prose { height: min(var(--avail), 24.8em); }
+.scene-2 .col-lead { font-size: var(--fs-lead); line-height: 1.7; letter-spacing: .12em; }
+.scene-2 .col-drop { padding-top: 3.2em; margin-right: .9em; }
+.scene-3 .prose, .scene-4 .prose { right: 24%; transform: translateY(-50%); }
+.scene-6 .prose { font-size: var(--fs-6); line-height: 3.4; height: min(var(--avail), 31.2em); }
+.scene-7 .prose { font-size: var(--fs-7); height: min(var(--avail), 24.4em); }
+
+/* 場面3・4：短冊形の写真 */
+.strip { position: absolute; left: 19%; top: 50%; transform: translateY(-50%); height: min(60%, 500px); aspect-ratio: 3 / 5; margin: 0; background: #e3d9c5; }
+.strip picture, .strip img { display: block; width: 100%; height: 100%; max-width: none; }
+.strip img { object-fit: cover; }
+.strip figcaption { position: absolute; left: 0; top: calc(100% + 9px); color: var(--muted); font: 400 11px/1 var(--sans); letter-spacing: .12em; white-space: nowrap; }
+
+@media (max-width: 1000px) {
+  .strip { left: 8%; height: min(52%, 440px); }
+  .scene-3 .prose, .scene-4 .prose { right: 12%; }
+}
+@media (max-width: 700px) {
+  .title-block { left: 9%; top: 6%; gap: 10px; }
+  .title { font-size: clamp(52px, calc(var(--frame-h) * .1), 64px); }
+  .title-kana { font-size: 14px; }
+  .photo-note { top: 14px; right: 16px; font-size: 11px; }
+  .title-link { left: 22px; bottom: 28px; min-height: 48px; padding: 0 24px; font-size: 13px; }
+  .folio { right: 22px; bottom: 18px; font-size: 11px; }
+  .scene-3 .prose, .scene-4 .prose { right: 26px; }
+  .strip { left: 22px; top: auto; bottom: calc(var(--pad-y) + 16px); transform: none; height: auto; width: min(38vw, 160px); }
+  .scene-6 .prose { line-height: 3; }
+}
+
+/* ---------- 場面8：商品（ここから通常のスクロール） ---------- */
+.shelf { padding-block: clamp(72px, 13vh, 150px); background: var(--paper); }
+.shelf-inner, .guide-inner {
+  width: calc(100% - var(--gutter) * 2); max-width: 1120px; margin-inline: auto;
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(40px, 8vw, 120px); align-items: start;
+}
+.shelf-photos { display: grid; grid-template-columns: minmax(0, 1fr) 84px; gap: 16px; align-items: start; }
+.shelf-main { margin: 0; }
+.shelf-main img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; background: #dcd8d0; }
+.shelf-main figcaption { margin-top: 9px; color: var(--muted); font: 400 11px/1 var(--sans); letter-spacing: .12em; }
+.shelf-cuts { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.shelf-cuts figure { margin: 0; }
+.shelf-cuts img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; background: #dcd8d0; }
+.shelf-kana { color: var(--muted); font: 400 12px/1 var(--sans); letter-spacing: .4em; }
+.shelf-name { margin-top: 16px; font: 400 clamp(44px, 5vw, 64px)/1.3 var(--serif); letter-spacing: .16em; }
+.shelf-state { margin-top: 30px; color: var(--red); font: 500 14px/1.6 var(--sans); letter-spacing: .14em; }
+.shelf-price { margin-top: 6px; }
+.shelf .alcohol-warning { margin-block: 20px 0; padding-block: 18px; border-block: 1px solid var(--line); }
+.shelf-specs { margin: 30px 0 0; font-size: 14px; line-height: 1.8; }
+.shelf-specs > div { display: grid; grid-template-columns: 9em minmax(0, 1fr); padding: 12px 0; border-bottom: 1px solid var(--line); }
+.shelf-specs dt { color: var(--muted); }
+.shelf-specs dd { margin: 0; }
+.text-link {
+  display: inline-flex; align-items: center; min-height: 52px; margin-top: 32px; padding: 0 30px;
+  border: 1px solid var(--ink); color: var(--ink);
+  font: 400 14px/1 var(--sans); letter-spacing: .18em;
+}
+.text-link:hover { background: var(--ink); color: var(--paper); }
+
+/* ---------- 場面9：ご利用案内・表記への導線 ---------- */
+.guide { padding-block: clamp(64px, 10vh, 120px) clamp(80px, 13vh, 150px); border-top: 1px solid var(--line); background: var(--paper); }
+.guide-title { font: 400 clamp(26px, 2.6vw, 34px)/1.5 var(--serif); letter-spacing: .14em; }
+.guide-list, .guide-links, .guide-note { grid-column: 2; }
+.guide-list { margin: 0; border-top: 1px solid var(--ink); }
+.guide-list > div { padding: 22px 0 24px; border-bottom: 1px solid var(--line); }
+.guide-list dt { font: 500 15px/1.7 var(--sans); letter-spacing: .06em; }
+.guide-list dd { margin: 8px 0 0; font-size: 14px; line-height: 2; }
+.guide-list dd p, .guide-note { word-break: auto-phrase; line-break: strict; }
+.guide-links { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 4px 32px; font-size: 14px; }
+.guide-links a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 7px; }
+/* トップページでは朱を「販売準備中」の1か所だけにする（確認中の注記は文言で伝える） */
+.guide .pending-text, .guide .pending-reason { color: inherit; }
+.guide-note { margin-top: 26px; color: var(--muted); font-size: 13px; line-height: 1.9; }
+
+@media (max-width: 800px) {
+  .guide-inner { grid-template-columns: minmax(0, 1fr); }
+  .guide-list, .guide-links, .guide-note { grid-column: 1; }
+  .guide-title { margin-bottom: 28px; }
+}
+@media (max-width: 700px) {
+  .shelf-inner { grid-template-columns: minmax(0, 1fr); row-gap: 44px; }
+  .shelf-photos { grid-template-columns: minmax(0, 1fr) 72px; gap: 12px; max-width: 420px; }
+  .shelf-cuts { gap: 12px; }
+}
+
+/* ---------- 既存ページの調整 ---------- */
+/* 注意表示は文節の途中で折り返さない（文字サイズの仕組みは disclosures.css のまま） */
+.alcohol-warning p { word-break: auto-phrase; line-break: strict; }
+.footer { background: var(--ink); border-top: 0; }
+.pdp-scene-photo { margin: 0; }
+.pdp-scene-photo img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
