@@ -1,6 +1,7 @@
 // 写真のパスと代替テキストはこのファイルだけに書く。
 // 実写に差し替えるときは、ここの src・srcset・alt・caption を書き換える（HTMLとCSSは触らない）。
 // position は、枠に合わせて切り抜くときに「写真のどこを見せるか」（左右% 上下%）。
+// swap は、画面の形によって別の写真に切り替えるときの設定（media が切り替える条件）。
 (() => {
   'use strict';
   const K = (window.Kippoushi = window.Kippoushi || {});
@@ -10,9 +11,9 @@
       src: `${dir}hero-tokkuri-1456.webp?v=3`,
       srcset: `${dir}hero-tokkuri-800.webp?v=3 800w, ${dir}hero-tokkuri-1456.webp?v=3 1456w`,
       width: 1456, height: 971,
-      position: '50% 62%',
+      position: '85% 50%',
       // 縦長の画面（スマホ・縦向きタブレット）では縦長の写真に切り替える
-      mobile: {
+      swap: {
         media: '(max-aspect-ratio: 4/5)',
         srcset: `${dir}hero-tokkuri-mobile-600.webp?v=3 600w, ${dir}hero-tokkuri-mobile-725.webp?v=3 700w`,
         width: 700, height: 1456,
@@ -32,6 +33,30 @@
       caption: '制作イメージ',
       label: '盃の情景イメージ'
     },
+    // ラベルの絵（場面1〜7で左に固定して見せる）
+    labelArt: {
+      src: `${dir}label-art-1380.webp`,
+      srcset: `${dir}label-art-690.webp 690w, ${dir}label-art-1380.webp 1380w`,
+      width: 1380, height: 1740,
+      position: '56% 50%',
+      // 横長の画面では、筆文字まで入ったラベル全体に切り替える（小さな活字は消してある）
+      swap: {
+        media: '(min-aspect-ratio: 17/10)',
+        srcset: `${dir}label-full-1000.webp 1000w, ${dir}label-full-2000.webp 2000w`,
+        width: 2000, height: 1740,
+        position: '0% 50%'
+      },
+      alt: 'ラベルの絵。山あいの茅葺きの家と流れる川、金色の月。'
+    },
+    labelVillage: {
+      src: `${dir}label-village.webp`,
+      width: 630, height: 570,
+      alt: 'ラベルの絵の一部。山あいの茅葺きの家。',
+      caption: 'ラベルの絵'
+    },
+    // CSSから使う素材（cssVar の名前でスタイルに渡す）
+    titleBrush: { src: `${dir}title-brush.webp`, cssVar: '--brush' },     // ラベルの筆文字「吉法師」
+    goldFoil: { src: `${dir}gold-foil.webp`, cssVar: '--gold-foil' },     // 金箔の質感
     bottleFront: {
       src: `${dir}bottle-front-1000.webp`,
       thumb: `${dir}bottle-front-400.webp`,
@@ -85,6 +110,6 @@
       else link.href = source.src;
       document.head.append(link);
     };
-    add(image.mobile && matchMedia(image.mobile.media).matches ? image.mobile : image);
+    add(image.swap && matchMedia(image.swap.media).matches ? image.swap : image);
   }
 })();

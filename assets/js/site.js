@@ -27,19 +27,24 @@
   }
   // 写真を data/images.js の一覧から差し込む。HTMLには置き場所（data-image）だけがある。
   function mountImages() {
+    // 筆文字・金箔など、スタイルから使う素材を渡す。
+    for (const image of Object.values(images)) {
+      if (image.cssVar) document.documentElement.style.setProperty(image.cssVar, `url("${new URL(image.src, document.baseURI).href}")`);
+    }
+    document.documentElement.classList.add('has-art');
     for (const holder of $$('[data-image]')) {
       const image = images[holder.dataset.image];
       if (!image) continue;
       const small = holder.hasAttribute('data-thumb');
       const sizes = holder.dataset.sizes || '100vw';
       const picture = document.createElement('picture');
-      if (image.mobile && !small && !holder.hasAttribute('data-wide')) {
+      if (image.swap && !small && !holder.hasAttribute('data-wide')) {
         const source = document.createElement('source');
-        source.media = image.mobile.media;
-        source.srcset = image.mobile.srcset;
+        source.media = image.swap.media;
+        source.srcset = image.swap.srcset;
         source.sizes = sizes;
-        source.setAttribute('width', image.mobile.width);
-        source.setAttribute('height', image.mobile.height);
+        source.setAttribute('width', image.swap.width);
+        source.setAttribute('height', image.swap.height);
         picture.append(source);
       }
       const img = document.createElement('img');
@@ -54,11 +59,11 @@
       if (image.preload) img.fetchPriority = 'high';
       if (!small && image.srcset) { img.srcset = image.srcset; img.sizes = sizes; }
       img.src = small ? image.thumb : image.src;
-      // 切り抜きの位置。縦長の写真に切り替わる画面では、そちらの位置を使う。
-      const tall = image.mobile && !small && !holder.hasAttribute('data-wide') ? matchMedia(image.mobile.media) : null;
-      const place = () => { img.style.objectPosition = (tall && tall.matches && image.mobile.position) || image.position || ''; };
+      // 切り抜きの位置。別の写真に切り替わる画面では、そちらの位置を使う。
+      const swapped = image.swap && !small && !holder.hasAttribute('data-wide') ? matchMedia(image.swap.media) : null;
+      const place = () => { img.style.objectPosition = (swapped && swapped.matches && image.swap.position) || image.position || ''; };
       place();
-      if (tall) tall.addEventListener('change', place);
+      if (swapped) swapped.addEventListener('change', place);
       picture.append(img);
       holder.prepend(picture);
       if (holder.hasAttribute('data-caption') && image.caption) {

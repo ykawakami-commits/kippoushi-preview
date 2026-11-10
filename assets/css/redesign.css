@@ -2,11 +2,15 @@
    優先順位：上部バーを常に同じ見た目で出す ＞ 1画面ずつ切り替える ＞ 見た目の質 */
 
 :root {
-  --paper: #f2eadb;
-  --ink: #2c302b;
-  --muted: #6f675a;
-  --line: #ccbea6;
-  --red: #953f2f;
+  /* ラベルの色：生成りの地、墨、深い青緑、金 */
+  --paper: #fcf9f1;
+  --ink: #1f2624;
+  --muted: #5d6963;
+  --line: #ddd2ad;
+  --red: #2a5753;      /* 以前の朱の役（ボタン・販売状態）は深い青緑に */
+  --green: #1c3835;
+  --pine: #1c3835;
+  --gold: #b98f45;
   /* 上部バーの高さ（PC 64px／スマホ 56px）。上端のセーフエリアを足した値が --header-h */
   --header-base: 64px;
   --header-h: calc(var(--header-base) + env(safe-area-inset-top, 0px));
@@ -15,8 +19,12 @@
   --stage-h: calc(100vh - var(--header-h));
   --pad-y: clamp(28px, 7vh, 72px);
   --avail: calc(var(--frame-h) - 2 * var(--pad-y));
+  /* 絵の幅（縦横比を保って高さいっぱい）、場面1の左端の帯と写真の幅（写真の上下が切れない幅まで） */
+  --art-w: min(calc(var(--frame-h) * .793), 50vw);
+  --strip-w: min(calc(var(--frame-h) * .241), 15vw);
+  --photo-w: min(62vw, calc(var(--frame-h) * 1.5));
   /* 縦書きの文字サイズ。1行23字（字送り1.14）が領域の高さに必ず収まるように決める */
-  --fs-max: 27px;
+  --fs-max: 30px;
   --fs: clamp(15px, calc(var(--avail) / 26.6), var(--fs-max));
   --fs-lead: min(calc(var(--fs) * 1.75), calc(var(--avail) / 14.2));
   --fs-6: clamp(15px, calc(var(--avail) / 31.2), var(--fs));
@@ -74,40 +82,64 @@ body, body.is-home { padding-top: var(--header-h); background: var(--paper); }
 @media (max-width: 700px) { .toast { bottom: 24px; } }
 
 /* ---------- 場面1〜7 ---------- */
-/* 既定：全場面が縦に並ぶ普通のページ（JSなし・動きを減らす設定） */
+/* ラベルの世界観：左に山水の絵（固定）、右に縦書き。金箔の帯・金の細線・青緑の帯で余白を埋める。 */
+/* 既定：全場面が縦に並ぶ普通のページ（JSなし・動きを減らす設定）。絵と飾りは sticky で付いてくる */
 .stage { position: relative; background: var(--paper); }
+.stage-back { position: sticky; top: var(--header-h); z-index: 0; height: var(--frame-h); margin-bottom: calc(-1 * var(--frame-h)); overflow: hidden; pointer-events: none; }
 .scene { position: relative; height: var(--frame-h); min-height: 440px; overflow: hidden; color: var(--ink); }
 .scene-frame { position: absolute; inset: 0; }
 .scene-fill { position: absolute; inset: 0; margin: 0; }
-.scene-1, .scene-5 { color: var(--paper); }
-.scene-ink { background: var(--ink); }
+.zone { position: absolute; top: 0; bottom: 0; left: var(--art-w); right: 0; }
 
 /* 切り替えが動くとき：場面を同じ場所に重ね、バーの下に固定する */
 .scenes-on .stage { height: var(--stage-h); overflow: hidden; }
+.scenes-on .stage-back { position: absolute; inset: 0; height: auto; margin: 0; }
 .scenes-on .scene { position: absolute; inset: 0; height: auto; min-height: 0; pointer-events: none; }
 .scenes-on .scene-frame { inset: 0 0 auto; height: var(--frame-h); }
 .scenes-on .scene a { pointer-events: auto; }
 
-/* 場面1：題字と全画面写真 */
-.scene-photo { background: #50544b; }
-.scene-photo picture, .scene-photo img { display: block; width: 100%; height: 100%; max-width: none; }
-.scene-photo img { object-fit: cover; }
-.scene-photo::after { content: ''; position: absolute; inset: 0; background: rgba(44, 48, 43, .3); }
-.title-block { position: absolute; left: 13%; top: 11%; display: flex; align-items: flex-start; gap: 14px; }
-.title { writing-mode: vertical-rl; font: 400 clamp(60px, calc(var(--frame-h) * .134), 112px)/1.12 var(--serif); letter-spacing: .1em; }
-.title-kana { writing-mode: vertical-rl; padding-top: 8px; font: 500 16px/1 var(--serif); letter-spacing: .3em; }
-.photo-note { position: absolute; top: 18px; right: var(--gutter); padding: 7px 10px; background: var(--ink); color: var(--paper); font: 400 12px/1 var(--sans); letter-spacing: .12em; }
+/* 固定の絵（ラベルの山水）と、合わせ目の金箔の帯 */
+.stage-art { position: absolute; left: 0; top: 0; bottom: 0; width: var(--art-w); margin: 0; background: #e9ecdc; }
+.stage-art picture, .stage-art img, .plate picture, .plate img, .scene-photo picture, .scene-photo img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; }
+.foil, .seam, .orn-bar, .moon { background: var(--gold) var(--gold-foil, none) center / cover; }
+.seam { position: absolute; left: var(--art-w); top: 0; bottom: 0; width: 12px; }
+.seam::after { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 1.5px; background: var(--gold); }
+
+/* 右側の飾り（ラベルにある帯と線を、同じ色・同じ形で） */
+.orn { position: absolute; }
+/* 上下の飾りは、本文の上下の余白（--pad-y）の中だけに置く。本文に重ねない */
+.orn-pill-a { top: calc(var(--pad-y) * .42); left: calc(var(--art-w) - 4%); right: -30px; height: max(9px, calc(var(--pad-y) * .2)); background: #939d89; border-radius: 99px; }
+.orn-pill-b { top: calc(var(--pad-y) * .14); left: calc(var(--art-w) + 6%); width: 16%; height: max(6px, calc(var(--pad-y) * .13)); background: #517371; border-radius: 99px; }
+.orn-line-a { top: calc(var(--pad-y) * .78); left: var(--art-w); right: 0; height: 1.5px; background: var(--gold); }
+.orn-turn { left: calc(var(--art-w) + 34px); bottom: 0; width: 24%; height: calc(var(--pad-y) * .72); border: solid var(--gold); border-width: 1.5px 1.5px 0 0; border-top-right-radius: 26px; }
+.orn-turn::after { content: ''; position: absolute; inset: 7px 7px 0 0; border: solid #517371; border-width: 6px 6px 0 0; border-top-right-radius: 19px; }
+.orn-bar { right: 3.4%; top: 18%; bottom: 17%; width: 12px; }
+.orn-bar::after { content: ''; position: absolute; right: -10px; top: -5%; bottom: -5%; width: 1.5px; background: var(--gold); }
+
+/* 場面1：筆文字の題字と、切れない写真 */
+.title-ground { left: var(--strip-w); background: var(--paper); }
+.title-ground::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 12px; background: var(--gold) var(--gold-foil, none) center / cover; }
+.title-ground::after { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 1.5px; background: var(--gold); }
+.scene-photo { left: auto; width: var(--photo-w); background: #50544b; border-left: 1.5px solid var(--gold); }
+.title-area { position: absolute; top: 0; bottom: 0; left: var(--strip-w); right: var(--photo-w); display: grid; place-items: center; }
+.title { position: relative; z-index: 1; margin-top: -4%; font: 400 clamp(60px, calc(var(--frame-h) * .134), 112px)/1.12 var(--serif); letter-spacing: .1em; writing-mode: vertical-rl; }
+.has-art .title { height: calc(var(--frame-h) * .62); aspect-ratio: 405 / 1260; background: currentColor; -webkit-mask: var(--brush) center / contain no-repeat; mask: var(--brush) center / contain no-repeat; }
+.has-art .title-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.title-kana { position: absolute; z-index: 1; top: 17%; left: calc(50% + var(--frame-h) * .1 + 18px); writing-mode: vertical-rl; font: 500 15px/1 var(--serif); letter-spacing: .34em; }
+.moon { position: absolute; top: 8%; left: calc(50% - var(--frame-h) * .27); width: calc(var(--frame-h) * .3); aspect-ratio: 1; border-radius: 50%; }
 .title-link {
-  position: absolute; left: 13%; bottom: var(--pad-y);
-  display: inline-flex; align-items: center; min-height: 52px; padding: 0 30px;
-  background: var(--paper); color: var(--ink);
+  position: absolute; z-index: 1; left: 50%; bottom: var(--pad-y); translate: -50% 0;
+  display: inline-flex; align-items: center; min-height: 52px; padding: 0 30px; white-space: nowrap;
+  background: var(--red); color: var(--paper);
   font: 400 14px/1 var(--sans); letter-spacing: .2em;
 }
-.title-link:hover { text-decoration: underline; text-underline-offset: 6px; }
+.title-link:hover { background: var(--pine); }
+.photo-note, .plate figcaption { padding: 7px 10px; background: var(--ink); color: var(--paper); font: 400 12px/1 var(--sans); letter-spacing: .12em; white-space: nowrap; }
+.photo-note { position: absolute; top: 18px; right: var(--gutter); }
 .folio { position: absolute; right: var(--gutter); bottom: 24px; color: var(--muted); font: 400 12px/1 var(--serif); letter-spacing: .32em; }
 .scene-1 .folio, .scene-5 .folio { color: var(--paper); }
 
-/* 縦書きの本文 */
+/* 縦書きの本文（右側の中央） */
 .prose {
   position: absolute; top: 50%; right: 50%; transform: translate(50%, -50%);
   height: min(var(--avail), 26.6em); margin: 0;
@@ -118,34 +150,52 @@ body, body.is-home { padding-top: var(--header-h); background: var(--paper); }
 .scene-2 .prose { height: min(var(--avail), 24.8em); }
 .scene-2 .col-lead { font-size: var(--fs-lead); line-height: 1.7; letter-spacing: .12em; }
 .scene-2 .col-drop { padding-top: 3.2em; margin-right: .9em; }
-.scene-3 .prose, .scene-4 .prose { right: 24%; transform: translateY(-50%); }
+.scene-5 { color: var(--paper); }
 .scene-6 .prose { font-size: var(--fs-6); line-height: 3.4; height: min(var(--avail), 31.2em); }
 .scene-7 .prose { font-size: var(--fs-7); height: min(var(--avail), 24.4em); }
 
-/* 場面3・4：短冊形の写真 */
-.strip { position: absolute; left: 19%; top: 50%; transform: translateY(-50%); height: min(60%, 500px); aspect-ratio: 3 / 5; margin: 0; background: #e3d9c5; }
-.strip picture, .strip img { display: block; width: 100%; height: 100%; max-width: none; }
-.strip img { object-fit: cover; }
-.strip figcaption { position: absolute; left: 0; top: calc(100% + 9px); color: var(--muted); font: 400 11px/1 var(--sans); letter-spacing: .12em; white-space: nowrap; }
+/* 場面3・4：絵の場所に盃の写真を重ねる */
+.plate { position: absolute; left: 0; top: 0; bottom: 0; width: var(--art-w); margin: 0; background: #3c423a; }
+.plate figcaption { position: absolute; left: 18px; bottom: 18px; }
 
-@media (max-width: 1000px) {
-  .strip { left: 8%; height: min(52%, 440px); }
-  .scene-3 .prose, .scene-4 .prose { right: 12%; }
+/* 場面5：右側を深い青緑にして、金の月と線を置く */
+.scene-ink { left: var(--art-w); background: var(--pine); }
+.scene-ink::before { content: ''; position: absolute; top: 7%; right: 5%; width: min(calc(var(--frame-h) * .2), 22%); aspect-ratio: 1; border-radius: 50%; background: var(--gold) var(--gold-foil, none) center / cover; }
+.scene-ink::after { content: ''; position: absolute; left: 0; right: 0; bottom: 10.5%; height: 1.5px; background: var(--gold); }
+
+/* 横長の画面：筆文字まで入ったラベル全体を見せて、右の余白を減らす */
+@media (min-aspect-ratio: 17/10) {
+  :root { --art-w: min(calc(var(--frame-h) * 1.149), 62vw); }
 }
-@media (max-width: 700px) {
-  .title-block { left: 9%; top: 6%; gap: 10px; }
-  .title { font-size: clamp(52px, calc(var(--frame-h) * .1), 64px); }
-  .title-kana { font-size: 14px; }
+
+/* 縦長の画面（スマホ・縦向きタブレット）：絵は左の細い帯、場面1は写真を全面に */
+@media (max-aspect-ratio: 4/5), (max-width: 700px) {
+  :root { --art-w: 40vw; }
+  .title-ground, .moon { display: none; }
+  .scene-photo { left: 0; width: auto; border-left: 0; }
+  .scene-photo::after { content: ''; position: absolute; inset: 0; background: rgba(31, 38, 36, .3); }
+  .scene-1 { color: var(--paper); }
+  .title-area { left: 0; right: 0; display: block; }
+  .title { position: absolute; left: 9%; top: 6%; margin: 0; }
+  .has-art .title { height: calc(var(--frame-h) * .44); }
+  .title-kana { top: 7%; left: calc(9% + var(--frame-h) * .141 + 12px); font-size: 14px; }
+  .title-link { left: 22px; bottom: 28px; translate: none; min-height: 48px; padding: 0 24px; background: var(--paper); color: var(--ink); font-size: 13px; }
+  .title-link:hover { background: var(--paper); text-decoration: underline; text-underline-offset: 6px; }
   .photo-note { top: 14px; right: 16px; font-size: 11px; }
-  .title-link { left: 22px; bottom: 28px; min-height: 48px; padding: 0 24px; font-size: 13px; }
   .folio { right: 22px; bottom: 18px; font-size: 11px; }
-  .scene-3 .prose, .scene-4 .prose { right: 26px; }
-  .strip { left: 22px; top: auto; bottom: calc(var(--pad-y) + 16px); transform: none; height: auto; width: min(38vw, 160px); }
+  .seam { width: 8px; }
+  .seam::after { left: 13px; }
+  .orn-pill-b, .orn-turn { display: none; }
+  .orn-bar { right: 9px; width: 6px; top: 14%; bottom: 12%; }
+  .orn-bar::after { display: none; }
+  .plate { top: auto; bottom: 0; aspect-ratio: 3 / 5; border-top: 8px solid var(--gold); }
+  .plate figcaption { left: 8px; bottom: 8px; padding: 5px 7px; font-size: 10px; }
+  .scene-ink::before { display: none; }
   .scene-6 .prose { line-height: 3; }
 }
 
 /* ---------- 場面8：商品（ここから通常のスクロール） ---------- */
-.shelf { padding-block: clamp(72px, 13vh, 150px); background: var(--paper); }
+.shelf { padding-block: clamp(56px, 10vh, 120px) clamp(72px, 13vh, 150px); background: var(--paper); }
 .shelf-inner, .guide-inner {
   width: calc(100% - var(--gutter) * 2); max-width: 1120px; margin-inline: auto;
   display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(40px, 8vw, 120px); align-items: start;
@@ -174,8 +224,12 @@ body, body.is-home { padding-top: var(--header-h); background: var(--paper); }
 .text-link:hover { background: var(--ink); color: var(--paper); }
 
 /* ---------- 場面9：ご利用案内・表記への導線 ---------- */
-.guide { padding-block: clamp(64px, 10vh, 120px) clamp(80px, 13vh, 150px); border-top: 1px solid var(--line); background: var(--paper); }
+.guide { padding-block: clamp(56px, 9vh, 110px) clamp(80px, 13vh, 150px); background: var(--paper); }
 .guide-title { font: 400 clamp(26px, 2.6vw, 34px)/1.5 var(--serif); letter-spacing: .14em; }
+.guide-side { position: sticky; top: calc(var(--header-h) + 32px); grid-column: 1; grid-row: 1 / span 3; }
+.guide-art { margin: 36px 0 0; padding: 10px; border: 1.5px solid var(--gold); }
+.guide-art img { width: 100%; height: auto; }
+.guide-art figcaption { margin-top: 8px; color: var(--muted); font: 400 11px/1 var(--sans); letter-spacing: .12em; }
 .guide-list, .guide-links, .guide-note { grid-column: 2; }
 .guide-list { margin: 0; border-top: 1px solid var(--ink); }
 .guide-list > div { padding: 22px 0 24px; border-bottom: 1px solid var(--line); }
@@ -191,7 +245,8 @@ body, body.is-home { padding-top: var(--header-h); background: var(--paper); }
 @media (max-width: 800px) {
   .guide-inner { grid-template-columns: minmax(0, 1fr); }
   .guide-list, .guide-links, .guide-note { grid-column: 1; }
-  .guide-title { margin-bottom: 28px; }
+  .guide-side { position: static; grid-row: auto; margin-bottom: 32px; }
+  .guide-art { max-width: 420px; margin-top: 24px; }
 }
 @media (max-width: 700px) {
   .shelf-inner { grid-template-columns: minmax(0, 1fr); row-gap: 44px; }
@@ -202,6 +257,12 @@ body, body.is-home { padding-top: var(--header-h); background: var(--paper); }
 /* ---------- 既存ページの調整 ---------- */
 /* 注意表示は文節の途中で折り返さない（文字サイズの仕組みは disclosures.css のまま） */
 .alcohol-warning p { word-break: auto-phrase; line-break: strict; }
-.footer { background: var(--ink); border-top: 0; }
+.footer { background: var(--pine); border-top: 12px solid var(--gold); }
+.button-red:hover:not(:disabled) { background: var(--pine); }
+/* 場面8・9の上に、ラベルと同じ帯と線を置く */
+.band { position: relative; height: 46px; overflow: hidden; }
+.band::before { content: ''; position: absolute; left: -30px; top: 12px; width: 38%; height: 12px; background: #939d89; border-radius: 99px; }
+.band::after { content: ''; position: absolute; right: -30px; top: 26px; width: 24%; height: 9px; background: #517371; border-radius: 99px; }
+.band i { position: absolute; left: 0; right: 0; top: 40px; height: 1.5px; background: var(--gold); }
 .pdp-scene-photo { margin: 0; }
 .pdp-scene-photo img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }

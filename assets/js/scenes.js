@@ -10,7 +10,7 @@
 
   const FADE = 0.25;     // 現れる・消えるにかける長さ（画面1枚ぶん＝1）
   const HOLD = 0.5;      // 止まっている長さ
-  const OVERLAP = 0.1;   // 前の場面が消えきる少し前に、次の場面が現れ始める
+  const OVERLAP = 0;     // 前の文章が消えきってから次が現れる（左の絵は残るので、何もない画面にはならない）
   const SHIFT = 16;      // 横に動く量（px）。右から現れ、左へ消える＝縦書きを読み進む向き
 
   gsap.registerPlugin(ScrollTrigger);

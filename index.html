@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f2eadb">
+  <meta name="theme-color" content="#fcf9f1">
   <meta name="description" content="いだちゃんねるの日本酒、吉法師（きっぽうし）。ブランドサイトのデザインプレビューです。">
   <meta name="robots" content="noindex,nofollow">
   <title>吉法師｜いだちゃんねるの日本酒</title>
@@ -16,16 +16,16 @@
   <link rel="stylesheet" href="assets/css/castle-atmosphere.css?v=9">
   <link rel="stylesheet" href="assets/css/presentation.css?v=10.1">
   <link rel="stylesheet" href="assets/css/disclosures.css?v=14">
-  <link rel="stylesheet" href="assets/css/redesign.css?v=1">
-  <script src="assets/js/data/images.js?v=1"></script>
+  <link rel="stylesheet" href="assets/css/redesign.css?v=2">
+  <script src="assets/js/data/images.js?v=2"></script>
   <script src="assets/js/vendor/gsap.min.js?v=3.13.0" defer></script>
   <script src="assets/js/vendor/ScrollTrigger.min.js?v=3.13.0" defer></script>
   <script src="assets/js/data/config.js?v=1" defer></script>
   <script src="assets/js/data/product.js?v=1" defer></script>
   <script src="assets/js/sales-info.js?v=14" defer></script>
   <script src="assets/js/cart.js?v=1" defer></script>
-  <script src="assets/js/site.js?v=15" defer></script>
-  <script src="assets/js/scenes.js?v=1" defer></script>
+  <script src="assets/js/site.js?v=16" defer></script>
+  <script src="assets/js/scenes.js?v=2" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">本文へ移動</a>
@@ -36,60 +36,68 @@
   <main id="main" tabindex="-1">
     <div id="home-page" class="page">
       <div class="stage" id="stage">
+        <div class="stage-back" aria-hidden="true">
+          <figure class="stage-art" data-image="labelArt" data-eager data-sizes="(max-aspect-ratio: 4/5) 40vw, 60vw"></figure>
+          <i class="seam"></i>
+          <i class="orn orn-pill-a"></i><i class="orn orn-pill-b"></i><i class="orn orn-line-a"></i><i class="orn orn-turn"></i><i class="orn orn-bar"></i>
+        </div>
         <section class="scene scene-1" aria-labelledby="scene-title">
+          <div class="scene-fill title-ground"></div>
           <figure class="scene-fill scene-photo" data-image="hero" data-eager></figure>
           <div class="scene-frame">
-            <div class="title-block">
-              <h1 id="scene-title" class="title" data-move>吉法師</h1>
+            <div class="title-area">
+              <i class="moon" data-fade aria-hidden="true"></i>
+              <h1 id="scene-title" class="title" data-move><span class="title-text">吉法師</span></h1>
               <p class="title-kana" data-move>きっぽうし</p>
+              <a class="title-link" href="#/product" data-fade>商品を見る</a>
             </div>
             <p class="photo-note" data-fade>制作イメージ</p>
-            <a class="title-link" href="#/product" data-fade>商品を見る</a>
             <p class="folio" data-fade aria-hidden="true">一／七</p>
           </div>
         </section>
         <section class="scene scene-2">
           <div class="scene-frame">
-            <div class="prose">
+            <div class="zone"><div class="prose">
               <h2 class="col col-lead" data-move data-phrase>「人生に立ち会う日本酒」</h2>
               <p class="col col-drop" data-move data-phrase>これが、吉法師に込めたテーマです。</p>
-            </div>
+            </div></div>
             <p class="folio" data-fade aria-hidden="true">二／七</p>
           </div>
         </section>
         <section class="scene scene-3">
           <div class="scene-frame">
-            <figure class="strip" data-image="cups" data-eager data-caption data-sizes="(max-width: 700px) 40vw, 240px" data-hold></figure>
-            <p class="prose"><span class="col" data-move data-phrase>恋人との初デート、久しぶりの友人との再会、</span><span class="col" data-move data-phrase>上司への仕事の相談。</span><span class="col" data-move data-phrase>人生のさまざまな場面に、お酒は登場します。</span></p>
+            <figure class="plate" data-image="cups" data-eager data-caption data-sizes="(max-aspect-ratio: 4/5) 40vw, 50vw" data-hold></figure>
+            <div class="zone"><p class="prose"><span class="col" data-move data-phrase>恋人との初デート、久しぶりの友人との再会、</span><span class="col" data-move data-phrase>上司への仕事の相談。</span><span class="col" data-move data-phrase>人生のさまざまな場面に、お酒は登場します。</span></p></div>
             <p class="folio" data-fade aria-hidden="true">三／七</p>
           </div>
         </section>
         <section class="scene scene-4">
           <div class="scene-frame">
-            <p class="prose"><span class="col" data-move data-phrase>そして時には、お酒を介した出会いや会話が、</span><span class="col" data-move data-phrase>人生を好転させるきっかけになることもあります。</span></p>
+            <div class="zone"><p class="prose"><span class="col" data-move data-phrase>そして時には、お酒を介した出会いや会話が、</span><span class="col" data-move data-phrase>人生を好転させるきっかけになることもあります。</span></p></div>
             <p class="folio" data-fade aria-hidden="true">四／七</p>
           </div>
         </section>
         <section class="scene scene-5">
           <div class="scene-fill scene-ink"></div>
           <div class="scene-frame">
-            <p class="prose"><span class="col" data-move data-phrase>化学反応における触媒のように、人と人が</span><span class="col" data-move data-phrase>より濃く、強く、そして軽やかに反応し合える。</span><span class="col" data-move data-phrase>吉法師は、そんな日本酒を目指して造りました。</span></p>
+            <div class="zone"><p class="prose"><span class="col" data-move data-phrase>化学反応における触媒のように、人と人が</span><span class="col" data-move data-phrase>より濃く、強く、そして軽やかに反応し合える。</span><span class="col" data-move data-phrase>吉法師は、そんな日本酒を目指して造りました。</span></p></div>
             <p class="folio" data-fade aria-hidden="true">五／七</p>
           </div>
         </section>
         <section class="scene scene-6">
           <div class="scene-frame">
-            <div class="prose"><p class="col" data-move data-phrase>大好きな人と過ごす時間に。</p><p class="col" data-move data-phrase>頑張った自分への労いに。</p><p class="col" data-move data-phrase>普段は照れくさくて言えない、父親への感謝を伝える時に。</p></div>
+            <div class="zone"><div class="prose"><p class="col" data-move data-phrase>大好きな人と過ごす時間に。</p><p class="col" data-move data-phrase>頑張った自分への労いに。</p><p class="col" data-move data-phrase>普段は照れくさくて言えない、父親への感謝を伝える時に。</p></div></div>
             <p class="folio" data-fade aria-hidden="true">六／七</p>
           </div>
         </section>
         <section class="scene scene-7">
           <div class="scene-frame">
-            <p class="prose"><span class="col" data-move data-phrase>あなたのかけがえのない人生のワンシーンに、</span><span class="col" data-move data-phrase>吉法師が立ち会えたら嬉しいです。</span></p>
+            <div class="zone"><p class="prose"><span class="col" data-move data-phrase>あなたのかけがえのない人生のワンシーンに、</span><span class="col" data-move data-phrase>吉法師が立ち会えたら嬉しいです。</span></p></div>
             <p class="folio" data-fade aria-hidden="true">七／七</p>
           </div>
         </section>
       </div>
+      <div class="band" aria-hidden="true"><i></i></div>
       <section class="shelf" id="sake" aria-labelledby="shelf-title">
         <div class="shelf-inner">
           <div class="shelf-photos">
@@ -117,9 +125,13 @@
           </div>
         </div>
       </section>
+      <div class="band" aria-hidden="true"><i></i></div>
       <section class="guide" id="faq" aria-labelledby="guide-title">
         <div class="guide-inner">
-          <h2 id="guide-title" class="guide-title">ご利用案内</h2>
+          <div class="guide-side">
+            <h2 id="guide-title" class="guide-title">ご利用案内</h2>
+            <figure class="guide-art" data-image="labelVillage" data-eager data-caption data-sizes="(max-width: 800px) 90vw, 420px"></figure>
+          </div>
           <dl class="guide-list">
             <div><dt>発売日・購入方法について</dt><dd><p data-phrase>現在、販売開始に向けて準備中です。価格は1本 <span class="price-text" data-sales-field="price"></span>です。内容量は<span data-sales-field="volume"></span>。発売日と正式な購入方法は、確定後にご案内します。</p></dd></div>
             <div><dt>送料・お届けについて</dt><dd><p><span data-sales-field="shipping"></span></p><p><span data-sales-field="deliveryTiming"></span></p><p>現在はご注文を受け付けておりません。</p></dd></div>
