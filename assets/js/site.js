@@ -63,7 +63,7 @@
       $('#cart-content').innerHTML = '<div class="empty-cart"><svg width="45" height="54" viewBox="0 0 24 28" fill="none" aria-hidden="true"><path d="M3 8.5h18l1 17H2l1-17Z" stroke="currentColor" stroke-width=".7"/><path d="M8 10V6a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width=".7"/></svg><h2>買い物かごは空です</h2><p>商品ページから追加できます。</p><a class="button button-red" href="#/product">商品を見る <span aria-hidden="true">↗</span></a></div>';
       return;
     }
-    $('#cart-content').innerHTML = `<div class="cart-grid"><article class="cart-item"><img src="assets/images/bottle-blue-400.webp" width="400" height="500" alt="吉法師の仮デザイン"><div><small>きっぽうし</small><h2><a href="#/product">吉法師</a></h2><p class="price-text">1本 ${sales.field('price', false)}</p><p>容量：${sales.field('volume', false)}</p><div class="quantity-control"><button type="button" data-quantity="-1" data-target="cart-quantity" aria-label="かごの数量を減らす">−</button><input id="cart-quantity" aria-label="かごの数量" type="number" min="1" step="1" inputmode="numeric" value="${state.quantity}"><button type="button" data-quantity="1" data-target="cart-quantity" aria-label="かごの数量を増やす">＋</button></div><button class="remove-item" type="button" data-remove-item>削除する</button></div></article>${summary()}</div>`;
+    $('#cart-content').innerHTML = `<div class="cart-grid"><article class="cart-item"><img src="assets/images/bottle-front-400.webp" width="400" height="500" alt="吉法師の瓶"><div><small>きっぽうし</small><h2><a href="#/product">吉法師</a></h2><p class="price-text">1本 ${sales.field('price', false)}</p><p>容量：${sales.field('volume', false)}</p><div class="quantity-control"><button type="button" data-quantity="-1" data-target="cart-quantity" aria-label="かごの数量を減らす">−</button><input id="cart-quantity" aria-label="かごの数量" type="number" min="1" step="1" inputmode="numeric" value="${state.quantity}"><button type="button" data-quantity="1" data-target="cart-quantity" aria-label="かごの数量を増やす">＋</button></div><button class="remove-item" type="button" data-remove-item>削除する</button></div></article>${summary()}</div>`;
     updateQuantityControl($('#cart-quantity'));
   }
   function renderCheckout() {
@@ -186,8 +186,11 @@
     const galleryButton = event.target.closest('[data-gallery]');
     if (galleryButton) {
       const gallery = {
-        bottle: ['bottle-blue-1000.webp','吉法師の瓶。青い瓶の制作イメージ。ラベルは仮デザイン。','制作イメージ／ラベルは仮デザインです'],
-        engawa: ['engawa-blue-1600.webp','縁側に置いた瓶と盃の生成イメージ。','生成イメージ／実際の商品・いだ城ではありません'],
+        bottle: ['bottle-front-1000.webp','吉法師の瓶の正面。水色の瓶に金色のキャップ、山水を描いたラベル。','制作イメージ'],
+        back: ['bottle-back-1000.webp','吉法師の瓶の裏面。裏ラベルの表示。','制作イメージ'],
+        label: ['bottle-label.webp','表ラベルの拡大。山水の絵と「吉法師」の題字。','制作イメージ'],
+        cap: ['bottle-cap.webp','金色のスクリューキャップの拡大。','制作イメージ'],
+        base: ['bottle-base.webp','瓶底の「720ml」の刻印。','制作イメージ'],
         cups: ['cups-1600.webp','木の縁側とふたつの盃の生成イメージ。','生成した情景イメージ']
       }[galleryButton.dataset.gallery];
       $('#gallery-main').src = `assets/images/${gallery[0]}`;
